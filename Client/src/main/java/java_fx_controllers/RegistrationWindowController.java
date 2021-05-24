@@ -35,5 +35,11 @@ public class RegistrationWindowController {
     @FXML @Getter @Setter
     public TextField loginField;
     
-    
+    public void setText(){
+        passwordField.setPromptText("password");
+        loginButton.setText("Log in");
+        registerButton.setText("Register");
+        welcomeText.setText("WelCUMe!");
+        registerOrAuthText.setText("Don't afraid, log in!");
+    }
 }

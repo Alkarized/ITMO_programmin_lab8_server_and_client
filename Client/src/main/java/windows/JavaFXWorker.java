@@ -32,6 +32,7 @@ public class JavaFXWorker {
         loader.setLocation(getClass().getResource("/Windows/registrationWindow.fxml"));
         Parent root = loader.load();
         registrationWindowController = loader.getController();
+        registrationWindowController.setText();
         Scene scene = new Scene(root);
         window.setScene(scene);
         window.setResizable(false);

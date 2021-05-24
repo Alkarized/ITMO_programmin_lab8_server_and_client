@@ -19,8 +19,8 @@ public class MainClientClass extends Application {
     public void start(Stage primaryStage) throws Exception {
         JavaFXWorker javaFXWorker = new JavaFXWorker();
         javaFXWorker.initializeWindow(primaryStage);
-        MainLocale.setLocale(new Locale("ru","RU"));
-        System.out.println(MainLocale.getResourceBundle().getString("test"));
+        //MainLocale.setLocale(new Locale("ru","RU"));
+        //System.out.println(MainLocale.getResourceBundle().getString("test"));
         //javaFXWorker.setMainWindow();
         //RegisterAlertBoxController.display();
     }
