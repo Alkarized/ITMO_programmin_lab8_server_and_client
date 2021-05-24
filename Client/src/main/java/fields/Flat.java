@@ -189,6 +189,19 @@ public class Flat implements Comparable<Flat>, Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public Flat(User user, String name, Coordinates coordinates, Date creationDate, Long area, Integer numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
+        this.user = user;
+        this.name = name;
+        this.coordinates = coordinates;
+        this.creationDate = creationDate;
+        this.area = area;
+        this.numberOfRooms = numberOfRooms;
+        this.furnish = furnish;
+        this.view = view;
+        this.transport = transport;
+        this.house = house;
+    }
 }
 
 

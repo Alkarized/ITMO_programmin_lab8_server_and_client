@@ -8,7 +8,6 @@ import commands.*;
 import message.MessageColor;
 import message.Messages;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 

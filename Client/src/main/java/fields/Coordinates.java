@@ -37,4 +37,11 @@ public class Coordinates implements Serializable {
         }
     }
 
+    public Coordinates() {
+    }
+
+    public Coordinates(Integer x, Float y) {
+        this.x = x;
+        this.y = y;
+    }
 }

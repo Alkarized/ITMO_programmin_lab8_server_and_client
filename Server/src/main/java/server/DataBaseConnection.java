@@ -1,8 +1,6 @@
 package server;
 
-import fields.Coordinates;
 import fields.Flat;
-import fields.House;
 import fields.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,12 +9,8 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import utils.EncryptMD2;
 
-import java.io.File;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Random;
 import java.util.TimeZone;
 
 public class DataBaseConnection {
@@ -51,7 +45,7 @@ public class DataBaseConnection {
     public synchronized boolean addFlatToBD(Flat flat, PriorityQueue<Flat> queue) {
         Transaction transaction = session.getTransaction();
 
-        if (!transaction.isActive()){
+        if (!transaction.isActive()) {
             transaction.begin();
         }
         session.save(flat.getCoordinates());
@@ -70,7 +64,7 @@ public class DataBaseConnection {
     public boolean removeFlatFromDBIfUserCorrectly(Flat flat, User user, PriorityQueue<Flat> queue) {
         Transaction transaction = session.getTransaction();
 
-        if (!transaction.isActive()){
+        if (!transaction.isActive()) {
             transaction.begin();
         }
 
@@ -96,7 +90,7 @@ public class DataBaseConnection {
 
     public boolean clearCollectionByUser(User user, PriorityQueue<Flat> queue) {
         Transaction transaction = session.getTransaction();
-        if (!transaction.isActive()){
+        if (!transaction.isActive()) {
             transaction.begin();
         }
         User userDB = session.get(User.class, user.getUsername());
@@ -117,7 +111,7 @@ public class DataBaseConnection {
     public boolean checkAndAuthorizeUser(User user) {
         User userDB = session.get(User.class, user.getUsername());
         if (userDB != null) {
-            return EncryptMD2.encrypt(user.getPassword(),userDB.getSalt()).equals(userDB.getPassword());
+            return EncryptMD2.encrypt(user.getPassword(), userDB.getSalt()).equals(userDB.getPassword());
         } else {
             return false;
         }
@@ -127,12 +121,12 @@ public class DataBaseConnection {
         User userDB = session.get(User.class, user.getUsername());
         if (userDB == null) {
             Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()){
+            if (!transaction.isActive()) {
                 transaction.begin();
             }
             User userToDB = new User(user.getUsername(), user.getPassword());
             userToDB.setSalt(EncryptMD2.generateRandomString());
-            userToDB.setPassword(EncryptMD2.encrypt(userToDB.getPassword(),userToDB.getSalt()));
+            userToDB.setPassword(EncryptMD2.encrypt(userToDB.getPassword(), userToDB.getSalt()));
             session.save(userToDB);
 
             transaction.commit();
@@ -149,7 +143,7 @@ public class DataBaseConnection {
 
     public boolean removeById(Long id, User user, PriorityQueue<Flat> queue) {
         Transaction transaction = session.getTransaction();
-        if (!transaction.isActive()){
+        if (!transaction.isActive()) {
             transaction.begin();
         }
 
@@ -171,7 +165,7 @@ public class DataBaseConnection {
 
     public boolean updateElementById(Long id, User user, PriorityQueue<Flat> queue, Flat flat) {
         Transaction transaction = session.getTransaction();
-        if (!transaction.isActive()){
+        if (!transaction.isActive()) {
             transaction.begin();
         }
         Flat flatDB = session.get(Flat.class, id);
@@ -195,7 +189,7 @@ public class DataBaseConnection {
         }
         try {
             transaction.commit();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -211,7 +205,7 @@ public class DataBaseConnection {
 
     public boolean removeLowerFlatsFromDB(Flat flat, User user, PriorityQueue<Flat> queue) {
         Transaction transaction = session.getTransaction();
-        if (!transaction.isActive()){
+        if (!transaction.isActive()) {
             transaction.begin();
         }
 

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="java_fx_controllers.MainWindowController"
+            prefHeight="0.0" prefWidth="1600.0"
+            stylesheets="/Styles/mainWindowStyle.css">
+    <HBox>
+
+        <padding>
+            <Insets top="10" bottom="10" right="10" left="10"/>
+        </padding>
+        <spacing>10</spacing>
+        <VBox>
+            <VBox alignment="CENTER_LEFT">
+                <spacing>6</spacing>
+                <padding>
+                    <Insets bottom="10"/>
+                </padding>
+                <StackPane>
+                    <Circle layoutY="10" radius="52">
+                        <fill>red</fill>
+                    </Circle>
+                    <ImageView fx:id="avatarIcon" fitWidth="120" fitHeight="120" pickOnBounds="true"
+                               preserveRatio="true">
+                        <Image url="/Pics/memefrogava.jpg"/>
+                        <clip>
+                            <Circle centerX="60" centerY="55" radius="50"/>
+                        </clip>
+                    </ImageView>
+                </StackPane>
+                <TextFlow textAlignment="CENTER">
+                    <Text fx:id="userNameText">user_name</Text>
+                </TextFlow>
+            </VBox>
+            <VBox fx:id="commandsBox">
+                <spacing>10</spacing>
+                <Button fx:id="helpButton">
+                    Help
+                </Button>
+                <Button fx:id="infoButton">
+                    Info
+                </Button>
+                <Button fx:id="addButton">
+                    Add
+                </Button>
+                <Button fx:id="updateButton">
+                    Update ID
+                </Button>
+                <Button fx:id="removeButton">
+                    Remove by ID
+                </Button>
+                <Button fx:id="clearButton">
+                    Clear
+                </Button>
+                <Button fx:id="executeScriptButton">
+                    Execute script
+                </Button>
+                <Button id="removeFirstButton">
+                    Remove first
+                </Button>
+                <Button fx:id="headButton">
+                    Head
+                </Button>
+                <Button fx:id="removeLowerButton">
+                    Remove lower
+                </Button>
+                <Button fx:id="minByCoordsButton">
+                    Min by coords
+                </Button>
+                <Button fx:id="countLessButton">
+                    Count less
+                </Button>
+                <Button fx:id="printFieldButton">
+                    Print field desc
+                </Button>
+                <Button fx:id="exitButton">
+                    Exit
+                </Button>
+            </VBox>
+        </VBox>
+        <VBox maxWidth="1600" prefWidth="Infinity">
+            <spacing>10</spacing>
+            <TableView fx:id="table" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+            </TableView>
+            <HBox>
+                <spacing>15</spacing>
+                <TextArea prefHeight="130" maxWidth="1600" prefWidth="Infinity" editable="false">
+                </TextArea>
+                <AnchorPane>
+                    <VBox alignment="CENTER">
+                        <ImageView layoutY="-10" fitHeight="120" fitWidth="120">
+                            <Image url="/Pics/vt2021.png"/>
+                        </ImageView>
+                        <Button fx:id="coordinatesButton" alignment="CENTER" prefWidth="150">
+                            <text>
+                                Coordinates
+                            </text>
+                        </Button>
+                    </VBox>
+                    <Button layoutY="-10" layoutX="65" prefWidth="40" prefHeight="40"
+                            fx:id="settingsButton">
+                        <graphic>
+                            <ImageView fitWidth="40" fitHeight="40">
+                                <Image url="/Pics/settings.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </AnchorPane>
+            </HBox>
+        </VBox>
+    </HBox>
+</AnchorPane>

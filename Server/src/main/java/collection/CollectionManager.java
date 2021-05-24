@@ -7,7 +7,6 @@ import fields.Flat;
 import fields.User;
 import message.MessageColor;
 import server.DataBaseConnection;
-import sun.security.krb5.internal.TGSRep;
 import utils.SerializableAnswerToClient;
 
 import java.util.*;
@@ -211,6 +210,7 @@ public class CollectionManager {
             return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Ошибка при добавлении элемента! Попробуйте еще раз. ");
         }
     }
+
     /**
      * бновление элемента коллекции по id
      *
@@ -242,7 +242,7 @@ public class CollectionManager {
         if (getCollection().size() > 0) {
             if (flat != null) {
                 try {
-                    if (dataBaseConnection.removeLowerFlatsFromDB(flat, user, getCollection())){
+                    if (dataBaseConnection.removeLowerFlatsFromDB(flat, user, getCollection())) {
                         return new SerializableAnswerToClient(MessageColor.ANSI_YELLOW, "Все элементы, меньше данного - удалены!");
                     } else {
                         return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Не удалось удалить элементы");

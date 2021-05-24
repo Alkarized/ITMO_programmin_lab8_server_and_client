@@ -20,7 +20,7 @@ public class EncryptMD2 {
         return encryptedString;
     }
 
-    public static String generateRandomString(){
+    public static String generateRandomString() {
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 10;

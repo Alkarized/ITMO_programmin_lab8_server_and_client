@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class FlatMaker {
 
-    private String end  = "Ну как скажете, тогда дальше не пойдем.";
+    private String end = "Ну как скажете, тогда дальше не пойдем.";
 
     public Flat makeFlat(Scanner scanner) {
         Flat flat = new Flat();

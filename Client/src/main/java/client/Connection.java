@@ -1,6 +1,5 @@
 package client;
 
-import commands.AuthorizationCommand;
 import commands.serializable_commands.SerializableCommandStandard;
 import message.MessageColor;
 import message.Messages;

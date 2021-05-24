@@ -1,0 +1,40 @@
+.root {
+    -fx-background-color: #333333
+}
+
+.root .button {
+    -fx-pref-width: 120;
+    -fx-pref-height: 45;
+    -fx-font-scale: 3;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-background-color: #ff0024;
+    -fx-text-fill: #cbf5f5;
+    -fx-background-radius: 5;
+}
+
+.root .button:focused {
+    -fx-border-color: #cbf5f5;
+    -fx-border-radius: 5;
+}
+
+#userNameText {
+    -fx-font-size: 20;
+    -fx-fill: #0eaeca;
+    -fx-stroke-width: 0.5;
+    -fx-stroke: #ffffff;
+}
+
+#settingsButton {
+    -fx-background-color: none;
+    -fx-pref-width: 40;
+    -fx-pref-height: 40;
+}
+
+#settingsButton:focused {
+    -fx-border-color: none;
+}
+
+#table .table-cell {
+    -fx-alignment: CENTER;
+}

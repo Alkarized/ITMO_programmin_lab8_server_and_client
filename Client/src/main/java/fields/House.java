@@ -48,4 +48,12 @@ public class House implements Serializable {
         }
     }
 
+    public House(String name, Long year, Long numberOfFlatsOnFloor) {
+        this.name = name;
+        this.year = year;
+        this.numberOfFlatsOnFloor = numberOfFlatsOnFloor;
+    }
+
+    public House() {
+    }
 }

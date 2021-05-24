@@ -4,7 +4,10 @@ import collection.Receiver;
 import message.MessageColor;
 import message.Messages;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.StreamCorruptedException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
@@ -64,7 +67,7 @@ public class Connection {
 
                     if (selectedKey.isReadable()) {
                         selectedKey.interestOps(SelectionKey.OP_CONNECT);
-                        cachedPool.submit(()->{
+                        cachedPool.submit(() -> {
                             Messages.getLogger().info("start cachedPool");
 
                             lock.readLock().lock();
@@ -95,7 +98,7 @@ public class Connection {
                         selectedKey.interestOps(SelectionKey.OP_CONNECT);
                         Messages.getLogger().info("sit in writing");
 
-                        new Thread(()->{
+                        new Thread(() -> {
                             Messages.getLogger().info("start normal thread");
                             //lock.writeLock().lock();
                             writeAns(selectedKey);
