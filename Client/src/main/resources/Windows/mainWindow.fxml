@@ -92,7 +92,7 @@
             </TableView>
             <HBox>
                 <spacing>15</spacing>
-                <TextArea prefHeight="130" maxWidth="1600" prefWidth="Infinity" editable="false">
+                <TextArea fx:id="textArea" prefHeight="130" maxWidth="1600" prefWidth="Infinity" editable="false">
                 </TextArea>
                 <AnchorPane>
                     <VBox alignment="CENTER">

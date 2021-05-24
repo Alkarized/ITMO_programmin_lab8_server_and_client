@@ -3,15 +3,21 @@
 }
 
 .button {
-    -fx-background-radius: 2px;
-    -fx-background-color: red;
+    -fx-pref-width: 110;
+    -fx-pref-height: 20;
+    -fx-border-width: 1;
     -fx-border-color: red;
-    -fx-text-fill: black;
     -fx-font-weight: bold;
+    -fx-font-size: 13;
+    -fx-background-color: #ff0024;
+    -fx-text-fill: #cbf5f5;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
 }
 
 .button:focused {
-    -fx-border-color: white;
+    -fx-border-color: #cbf5f5;
+    -fx-border-radius: 5;
 }
 
 #welcomeText {

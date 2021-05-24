@@ -1,8 +1,11 @@
 import javafx.application.Application;
 import javafx.stage.Stage;
+import utils.MainLocale;
 import windows.JavaFXWorker;
 
+import java.awt.*;
 import java.io.IOException;
+import java.util.Locale;
 
 
 public class MainClientClass extends Application {
@@ -16,7 +19,9 @@ public class MainClientClass extends Application {
     public void start(Stage primaryStage) throws Exception {
         JavaFXWorker javaFXWorker = new JavaFXWorker();
         javaFXWorker.initializeWindow(primaryStage);
-        javaFXWorker.setMainWindow();
+        MainLocale.setLocale(new Locale("ru","RU"));
+        System.out.println(MainLocale.getResourceBundle().getString("test"));
+        //javaFXWorker.setMainWindow();
         //RegisterAlertBoxController.display();
     }
 }

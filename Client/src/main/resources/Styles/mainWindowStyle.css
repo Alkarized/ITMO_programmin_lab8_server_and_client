@@ -38,3 +38,7 @@
 #table .table-cell {
     -fx-alignment: CENTER;
 }
+
+.text-area{
+    -fx-font-size: 15;
+}
