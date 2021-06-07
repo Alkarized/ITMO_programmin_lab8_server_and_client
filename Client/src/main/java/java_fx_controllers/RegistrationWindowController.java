@@ -41,5 +41,6 @@ public class RegistrationWindowController {
         registerButton.setText("Register");
         welcomeText.setText("WelCUMe!");
         registerOrAuthText.setText("Don't afraid, log in!");
+        loginField.setPromptText("login");
     }
 }

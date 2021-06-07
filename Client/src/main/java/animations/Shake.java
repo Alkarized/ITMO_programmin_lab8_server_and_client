@@ -1,4 +1,4 @@
-package windows;
+package animations;
 
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;

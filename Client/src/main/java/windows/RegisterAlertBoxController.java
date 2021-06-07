@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class RegisterAlertBoxController {
-    public static boolean display() throws IOException {
+    public static boolean display() throws IOException { //todo
         Stage window = new Stage();
         window.setTitle("Регистрация");
         window.initModality(Modality.APPLICATION_MODAL);
