@@ -69,7 +69,6 @@ public class Connection {
                         selectedKey.interestOps(SelectionKey.OP_CONNECT);
                         cachedPool.submit(() -> {
                             Messages.getLogger().info("start cachedPool");
-
                             lock.readLock().lock();
                             Object object = readObjectFromClient(selectedKey);
                             if (object != null) {

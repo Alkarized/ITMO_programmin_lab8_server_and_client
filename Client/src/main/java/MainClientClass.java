@@ -12,16 +12,17 @@ import java.util.Locale;
 
 public class MainClientClass extends Application {
     public static void main(String[] args) throws IOException {
-        //ProgramStarter programStarter = new ProgramStarter("localhost", 7777);
-        //programStarter.start();
+        /*ProgramStarter programStarter = new ProgramStarter("localhost", 7879);
+        programStarter.start();*/
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        ProgramStarter programStarter = new ProgramStarter("localhost", 7879);
         JavaFXWorker javaFXWorker = new JavaFXWorker();
         //Init LogInOrRegisterWindow
-        javaFXWorker.initializeWindow(primaryStage);
+        javaFXWorker.initializeWindow(primaryStage, programStarter);
 
         //MainLocale.setLocale(new Locale("ru","RU"));
         //System.out.println(MainLocale.getResourceBundle().getString("test"));

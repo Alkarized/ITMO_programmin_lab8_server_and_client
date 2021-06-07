@@ -1,5 +1,6 @@
 package windows;
 
+import client.Connection;
 import java_fx_controllers.MainWindowController;
 import java_fx_controllers.RegistrationWindowController;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +29,7 @@ public class JavaFXWorker {
     private MainWindowController mainWindowController;
 
     //init LogInOrRegisterWindow
-    public void initializeWindow(Stage stage) throws IOException {
+    public void initializeWindow(Stage stage, ProgramStarter programStarter) throws IOException {
         //load LogInOrRegisterWindow
         window = stage;
         FXMLLoader loader = new FXMLLoader();
@@ -36,6 +37,8 @@ public class JavaFXWorker {
         Parent root = loader.load();
         //get LogInOrRegisterController
         registrationWindowController = loader.getController();
+        registrationWindowController.setAuthRegisterUser(programStarter.getAuthRegisterUser());
+        registrationWindowController.setJavaFXWorker(this);
         //set Locale Text
         registrationWindowController.setText();
 
@@ -47,11 +50,9 @@ public class JavaFXWorker {
         //set Title name of Window
         window.setTitle("Авторизация"); //todo
 
-        //init all stuff:
-        /*ProgramStarter programStarter = new ProgramStarter();
-        new Thread(){()->
-        }*/
+        //init all stuff
         window.show();
+
     }
 
     //Init and set mainWindow

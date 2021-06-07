@@ -39,10 +39,10 @@
                 <Text fx:id="errorText" style="-fx-text-fill: red"/>
             </HBox>
             <HBox alignment="CENTER">
-                <Button fx:id="loginButton"  prefWidth="100" alignment="CENTER"/>
+                <Button fx:id="loginButton" onMouseClicked="#tryLogin" prefWidth="100" alignment="CENTER"/>
             </HBox>
             <HBox alignment="CENTER">
-                <Button fx:id="registerButton" prefWidth="100" alignment="CENTER"/>
+                <Button fx:id="registerButton" onMouseClicked="#tryRegister" prefWidth="100" alignment="CENTER"/>
             </HBox>
             <!--<HBox alignment="BOTTOM_RIGHT">
                 <padding>

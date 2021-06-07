@@ -6,7 +6,7 @@ import utils.ProgramStarter;
 public class MainServerClass {
 
     public static void main(String[] args) {
-        ProgramStarter programStarter = new ProgramStarter(7777);
+        ProgramStarter programStarter = new ProgramStarter(7879);
         programStarter.startProgram();
     }
 

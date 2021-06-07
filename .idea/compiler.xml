@@ -11,5 +11,8 @@
         <module name="Client" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ITMO_programming_lab8" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

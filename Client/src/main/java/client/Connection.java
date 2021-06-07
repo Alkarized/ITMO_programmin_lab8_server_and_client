@@ -16,11 +16,12 @@ public class Connection {
     private Socket socket;
     private final String host;
     private final int port;
-    private boolean isNeedToAuth = true;
+    private boolean isConnected;
 
     public Connection(String host, int port) {
         this.host = host;
         this.port = port;
+        isConnected = false;
     }
 
     public void setSocket(Socket socket) {
@@ -46,8 +47,9 @@ public class Connection {
             return true;
         } catch (SocketException e) {
             socket.close();
+            isConnected = false;
             Messages.normalMessageOutput("В данный момент сервер недоступен, попытаемся еще раз!", MessageColor.ANSI_RED);
-            isNeedToAuth = !startConnection(host, port, serializableCommandStandard);
+            //startConnection(host, port, serializableCommandStandard);
             return false;
         }
     }
@@ -56,7 +58,7 @@ public class Connection {
         socket.close();
     }
 
-    public boolean startConnection(String host, int port, SerializableCommandStandard serializableCommandStandard) {
+    /*public boolean startConnection(String host, int port, SerializableCommandStandard serializableCommandStandard) {
         while (true) {
             try {
                 socket = new Socket(InetAddress.getByName(host), port);
@@ -75,9 +77,21 @@ public class Connection {
             }
         }
         return false;
+    }*/
+
+    public boolean tryConnect(){
+        if (!isConnected){
+            try {
+                socket = new Socket(InetAddress.getByName(host), port);
+                System.out.println("Соединение открыто - " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
+                socket.setSoTimeout(10*1000);
+                isConnected = true;
+                return true;
+            } catch (IOException e){
+                return false;
+            }
+        }
+        return true;
     }
 
-    public boolean isNeedToAuth() {
-        return isNeedToAuth;
-    }
 }

@@ -5,6 +5,8 @@ import client.Connection;
 import client.Invoker;
 import client.Receiver;
 import commands.*;
+import lombok.Getter;
+import lombok.Setter;
 import message.MessageColor;
 import message.Messages;
 
@@ -16,22 +18,22 @@ public class ProgramStarter {
     private final Invoker invoker;
     private final Receiver receiver;
     private final Connection connection;
+    @Getter @Setter
+    private final AuthRegisterUser authRegisterUser;
 
     public ProgramStarter(String host, int port) {
         invoker = new Invoker();
         Messages.normalMessageOutput("Подключаемся к серверу...", MessageColor.ANSI_CYAN);
         connection = new Connection(host, port);
-        connection.startConnection(host, port, null);
+        //connection.startConnection(host, port, null);
         receiver = new Receiver(invoker, connection);
+        authRegisterUser = new AuthRegisterUser(connection, receiver);
+        registerAllCommands();
     }
 
     public void start() {
-        AuthRegisterUser authRegisterUser = new AuthRegisterUser();
-        authRegisterUser.authOrRegisterUser(connection, receiver);
-
-        registerAllCommands();
-        LineReader lineReader = new LineReader();
-        lineReader.readLine(new Scanner(System.in), invoker, true);
+        /*LineReader lineReader = new LineReader();
+        lineReader.readLine(new Scanner(System.in), invoker, true);*/
     }
 
     private void registerAllCommands() {
