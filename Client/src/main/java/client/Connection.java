@@ -40,11 +40,15 @@ public class Connection {
 
     public boolean sendSerializableCommand(SerializableCommandStandard serializableCommandStandard) throws IOException {
         try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectOutputStream.writeObject(serializableCommandStandard);
-            objectOutputStream.flush();
-            Messages.normalMessageOutput("Отправка данных на сервер!", MessageColor.ANSI_CYAN);
-            return true;
+            if (tryConnect()) {
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                objectOutputStream.writeObject(serializableCommandStandard);
+                objectOutputStream.flush();
+                Messages.normalMessageOutput("Отправка данных на сервер!", MessageColor.ANSI_CYAN);
+                return true;
+            } else {
+                return false;
+            }
         } catch (SocketException e) {
             socket.close();
             isConnected = false;

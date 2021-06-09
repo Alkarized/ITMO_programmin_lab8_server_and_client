@@ -1,6 +1,7 @@
 package commands;
 
 import client.Receiver;
+import utils.SerializableAnswerToClient;
 
 import java.io.Serializable;
 import java.util.Scanner;
@@ -17,12 +18,13 @@ public class AuthorizationCommand extends Command implements Serializable {
     }
 
     @Override
-    public void execute(String[] args) {
-
+    public SerializableAnswerToClient execute(String[] args) {
+        return null;
     }
 
     @Override
-    public void execute(String[] args, Scanner scanner) {
+    public SerializableAnswerToClient execute(String[] args, Scanner scanner) {
+        return null;
 
     }
 }

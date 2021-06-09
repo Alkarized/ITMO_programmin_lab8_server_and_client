@@ -4,7 +4,9 @@ import client.Receiver;
 import fields.Flat;
 import message.MessageColor;
 import message.Messages;
+import utils.FlatGetter;
 import utils.FlatMaker;
+import utils.SerializableAnswerToClient;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -19,18 +21,18 @@ public class UpdateByIdCommand extends Command implements Serializable {
     }
 
     @Override
-    public void execute(String[] args) {
-        execute(args, new Scanner(System.in));
+    public SerializableAnswerToClient execute(String[] args) {
+         return execute(args, null);
     }
 
     @Override
-    public void execute(String[] args, Scanner scanner) {
+    public SerializableAnswerToClient execute(String[] args, Scanner scanner) {
         try {
             if (args.length == 2) {
-                Flat flat = new FlatMaker().makeFlat(scanner);
+                Flat flat = new FlatMaker().makeFlat(scanner, "Упадете","обновить данные", FlatGetter.getFlat());
                 if (flat != null) {
                     Long.valueOf(args[1]);
-                    receiver.updateElementById(flat, args);
+                    return receiver.updateElementById(flat, args);
                 } else {
                     throw new NumberFormatException();
                 }
@@ -42,6 +44,6 @@ public class UpdateByIdCommand extends Command implements Serializable {
         } catch (IOException | ClassNotFoundException e1) {
             Messages.normalMessageOutput("Что-то пошло не так..." + e1.toString(), MessageColor.ANSI_RED);
         }
-
+        return null;
     }
 }

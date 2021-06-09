@@ -16,6 +16,7 @@ import java.nio.ByteBuffer;
 
 public class ObjectParser {
     public ByteBuffer parseObjectToByteBuffer(Object object, Receiver receiver) {
+        //Messages.normalMessageOutput("sit in parsing object to ByteBuffer", MessageColor.ANSI_BLUE);
         SerializableAnswerToClient serializableAnswerToClient = null;
         if (object instanceof SerializableCommandWithObjectAndArgs) {
             SerializableCommandWithObjectAndArgs command = (SerializableCommandWithObjectAndArgs) object;
@@ -34,6 +35,7 @@ public class ObjectParser {
     }
 
     private ByteBuffer parseAnswerToByteBuffer(SerializableAnswerToClient serializableAnswerToClient) {
+        //Messages.normalMessageOutput("sit in parsin answer to ByteBuffer", MessageColor.ANSI_BLUE);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ByteBuffer byteBuffer = ByteBuffer.allocate(10000);
         try {

@@ -28,12 +28,13 @@ public class AuthRegisterUser {
                         receiver.setUser(user);
                         return "";
                     } else {
-                        return "Не удалось создать новый аккаунт, возможно, такое имя уже используется, попробуйте еще раз";
+                        return "Логин уже используется, попробуйте новый";
                     }
                 } else {
                     return "сервер недоступен! Попробуйте позже";
                 }
             } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
                 return "уппс, ашибка!";
             }
         } else {

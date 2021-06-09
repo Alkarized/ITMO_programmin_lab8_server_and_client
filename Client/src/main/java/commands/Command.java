@@ -1,6 +1,7 @@
 package commands;
 
 import client.Receiver;
+import utils.SerializableAnswerToClient;
 
 import java.io.Serializable;
 import java.util.Scanner;
@@ -18,7 +19,7 @@ public abstract class Command implements Serializable {
         this.receiver = receiver;
     }
 
-    public abstract void execute(String[] args);
+    public abstract SerializableAnswerToClient execute(String[] args);
 
-    public abstract void execute(String[] args, Scanner scanner);
+    public abstract SerializableAnswerToClient execute(String[] args, Scanner scanner);
 }

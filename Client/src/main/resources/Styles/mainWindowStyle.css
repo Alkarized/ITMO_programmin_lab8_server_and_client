@@ -19,6 +19,8 @@
 }
 
 #userNameText {
+    -fx-pref-width: 120;
+    -fx-pref-height: 45;
     -fx-font-size: 20;
     -fx-fill: #0eaeca;
     -fx-stroke-width: 0.5;

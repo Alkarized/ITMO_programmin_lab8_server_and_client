@@ -3,6 +3,7 @@ package commands;
 import client.Receiver;
 import message.MessageColor;
 import message.Messages;
+import utils.SerializableAnswerToClient;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,11 +18,11 @@ public class CountLessCommand extends Command implements Serializable {
     }
 
     @Override
-    public void execute(String[] args) {
+    public SerializableAnswerToClient execute(String[] args) {
         try {
             if (args.length == 2) {
                 Integer.parseInt(args[1]);
-                receiver.countLessNumberOfRooms(args);
+                return receiver.countLessNumberOfRooms(args);
             } else
                 throw new NumberFormatException();
         } catch (NumberFormatException e) {
@@ -29,10 +30,11 @@ public class CountLessCommand extends Command implements Serializable {
         } catch (IOException | ClassNotFoundException e1) {
             Messages.normalMessageOutput("Что-то пошло не так..." + e1.toString(), MessageColor.ANSI_RED);
         }
+        return null;
     }
 
     @Override
-    public void execute(String[] args, Scanner scanner) {
-        execute(args);
+    public SerializableAnswerToClient execute(String[] args, Scanner scanner) {
+        return execute(args);
     }
 }

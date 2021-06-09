@@ -32,98 +32,105 @@ public class Receiver {
         System.exit(0);
     }
 
-    public void getInfoAboutAllCommands() throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient getInfoAboutAllCommands() throws IOException, ClassNotFoundException {
 
         if (connection.sendSerializableCommand(new SerializableCommandStandard(new HelpCommand(this), user))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
 
     }
 
-    public void getInfoAboutCollection() throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient getInfoAboutCollection() throws IOException, ClassNotFoundException {
         if (connection.sendSerializableCommand(new SerializableCommandStandard(new InfoCommand(this), user))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
     }
 
-    public void clear() throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient clear() throws IOException, ClassNotFoundException {
         if (connection.sendSerializableCommand(new SerializableCommandStandard(new ClearCommand(this), user))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
     }
 
-    public void removeFirst() throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient removeFirst() throws IOException, ClassNotFoundException {
         if (connection.sendSerializableCommand(new SerializableCommandStandard(new RemoveFirstCommand(this), user))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
     }
 
-    public void printFieldDescendingNumberOfRooms() throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient printFieldDescendingNumberOfRooms() throws IOException, ClassNotFoundException {
         if (connection.sendSerializableCommand(new SerializableCommandStandard(new PrintFieldNumberOfRoomsCommand(this), user))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
     }
 
-    public void getHead() throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient getHead() throws IOException, ClassNotFoundException {
         if (connection.sendSerializableCommand(new SerializableCommandStandard(new HeadCommand(this), user))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
     }
 
-    public void countLessNumberOfRooms(String[] args) throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient countLessNumberOfRooms(String[] args) throws IOException, ClassNotFoundException {
         if (connection.sendSerializableCommand(new SerializableCommandWithArgs(new CountLessCommand(this), user, args))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
     }
 
-    public void printElementWithMinCoordinates() throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient printElementWithMinCoordinates() throws IOException, ClassNotFoundException {
         if (connection.sendSerializableCommand(new SerializableCommandStandard(new MinByCoordinatesCommand(this), user))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
     }
 
-    public void removeById(String[] args) throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient removeById(String[] args) throws IOException, ClassNotFoundException {
         if (connection.sendSerializableCommand(new SerializableCommandWithArgs(new RemoveByIdCommand(this), user, args))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
     }
 
-    public void printAllElements() throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient printAllElements() throws IOException, ClassNotFoundException {
         if (connection.sendSerializableCommand(new SerializableCommandStandard(new ShowCommand(this), user))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
     }
 
-    public void addElement(Flat flat) throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient addElement(Flat flat) throws IOException, ClassNotFoundException {
         if (connection.sendSerializableCommand(new SerializableCommandWithObject(new AddCommand(this), user, flat))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
     }
 
-    public void updateElementById(Flat flat, String[] args) throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient updateElementById(Flat flat, String[] args) throws IOException, ClassNotFoundException {
         if (connection.sendSerializableCommand(new SerializableCommandWithObjectAndArgs(new UpdateByIdCommand(this),
                 user, flat, args))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
     }
 
-    public void removeLowerElements(Flat flat) throws IOException, ClassNotFoundException {
+    public SerializableAnswerToClient removeLowerElements(Flat flat) throws IOException, ClassNotFoundException {
         if (connection.sendSerializableCommand(new SerializableCommandWithObject(new RemoveLowerCommand(this), user, flat))) {
-            SerializableAnswerToClient ans = connection.getStringAnsFromServer();
-            Messages.normalMessageOutput(ans.getAns(), ans.getColor());
+            return connection.getStringAnsFromServer();
         }
+        return null;
+    }
+
+    public SerializableAnswerToClient getAllCollection() throws IOException, ClassNotFoundException {
+        if (connection.sendSerializableCommand(new SerializableCommandStandard(new GetCollectionCommand(this), user))) {
+            return connection.getStringAnsFromServer();
+        }
+        return null;
     }
 
     public boolean executeScript(String args) {

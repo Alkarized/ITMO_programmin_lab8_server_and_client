@@ -5,6 +5,7 @@ import fields.Flat;
 import message.MessageColor;
 import message.Messages;
 import utils.FlatMaker;
+import utils.SerializableAnswerToClient;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -19,20 +20,18 @@ public class RemoveLowerCommand extends Command implements Serializable {
     }
 
     @Override
-    public void execute(String[] args) {
-        execute(args, new Scanner(System.in));
+    public SerializableAnswerToClient execute(String[] args) {
+        return execute(args, null);
     }
 
     @Override
-    public void execute(String[] args, Scanner scanner) {
+    public SerializableAnswerToClient execute(String[] args, Scanner scanner) {
 
         try {
             if (args.length == 1) {
-                Flat flat = new FlatMaker().makeFlat(scanner);
-
-
+                Flat flat = new FlatMaker().makeFlat(scanner, "удаление)", "удолясь", null);
                 if (flat != null)
-                    receiver.removeLowerElements(flat);
+                    return receiver.removeLowerElements(flat);
                 else
                     Messages.normalMessageOutput("Неправильно введены аргументы", MessageColor.ANSI_RED);
             } else {
@@ -41,6 +40,7 @@ public class RemoveLowerCommand extends Command implements Serializable {
         } catch (IOException | ClassNotFoundException e) {
             Messages.normalMessageOutput("Что-то пошло не так..." + e.toString(), MessageColor.ANSI_RED);
         }
+        return null;
     }
 
 }

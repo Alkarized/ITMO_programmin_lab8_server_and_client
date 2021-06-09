@@ -1,36 +1,33 @@
 package commands;
 
 import client.Receiver;
-import message.MessageColor;
-import message.Messages;
+import fields.Flat;
+import fields.User;
 import utils.SerializableAnswerToClient;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Scanner;
 
-public class ExitCommand extends Command implements Serializable {
+public class GetCollectionCommand extends Command implements Serializable{
+    private static final long serialVersionUID = 541;
 
-    public ExitCommand(Receiver receiver) {
+    public GetCollectionCommand(Receiver receiver) {
         super(receiver);
     }
 
     @Override
     public SerializableAnswerToClient execute(String[] args) {
         try {
-            if (args.length == 1)
-                receiver.exit();
-            else
-                Messages.normalMessageOutput("Неправильно введены аргументы", MessageColor.ANSI_RED);
-        } catch (IOException ignored) {
+            return receiver.getAllCollection();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return null;
     }
-
 
     @Override
     public SerializableAnswerToClient execute(String[] args, Scanner scanner) {
         return execute(args);
     }
-
 }

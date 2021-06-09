@@ -42,46 +42,46 @@
             </VBox>
             <VBox fx:id="commandsBox">
                 <spacing>10</spacing>
-                <Button fx:id="helpButton">
+                <Button fx:id="helpButton" onMouseClicked="#getHelp">
                     Help
                 </Button>
-                <Button fx:id="infoButton">
+                <Button fx:id="infoButton" onMouseClicked="#getInfo">
                     Info
                 </Button>
-                <Button fx:id="addButton">
+                <Button fx:id="addButton" onMouseClicked="#addNewFlat">
                     Add
                 </Button>
-                <Button fx:id="updateButton">
+                <Button fx:id="updateButton" onMouseClicked="#updateFlat">
                     Update ID
                 </Button>
-                <Button fx:id="removeButton">
+                <Button fx:id="removeButton" onMouseClicked="#removeFlat">
                     Remove by ID
                 </Button>
-                <Button fx:id="clearButton">
+                <Button fx:id="clearButton" onMouseClicked="#clearFlats">
                     Clear
                 </Button>
-                <Button fx:id="executeScriptButton">
+                <Button fx:id="executeScriptButton" onMouseClicked="#executeScripts">
                     Execute script
                 </Button>
-                <Button id="removeFirstButton">
+                <Button id="removeFirstButton" onMouseClicked="#removeFirstFlat">
                     Remove first
                 </Button>
-                <Button fx:id="headButton">
+                <Button fx:id="headButton" onMouseClicked="#getHeadFlat">
                     Head
                 </Button>
-                <Button fx:id="removeLowerButton">
+                <Button fx:id="removeLowerButton" onMouseClicked="#removeLowerFlat">
                     Remove lower
                 </Button>
-                <Button fx:id="minByCoordsButton">
+                <Button fx:id="minByCoordsButton" onMouseClicked="#minByCoords">
                     Min by coords
                 </Button>
-                <Button fx:id="countLessButton">
+                <Button fx:id="countLessButton" onMouseClicked="#countLess">
                     Count less
                 </Button>
-                <Button fx:id="printFieldButton">
+                <Button fx:id="printFieldButton" onMouseClicked="#printFields">
                     Print field desc
                 </Button>
-                <Button fx:id="exitButton">
+                <Button fx:id="exitButton" onMouseClicked="#exit">
                     Exit
                 </Button>
             </VBox>

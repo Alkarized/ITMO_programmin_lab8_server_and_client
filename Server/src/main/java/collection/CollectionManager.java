@@ -18,7 +18,6 @@ public class CollectionManager {
     private final PriorityQueue<Flat> collection;
     private final Date date;
     private final DataBaseConnection dataBaseConnection;
-    private boolean dbIsUsed = false;
 
     public CollectionManager() {
         date = new Date();
@@ -55,13 +54,9 @@ public class CollectionManager {
      */
     public String clearCollection(User user) {
         if (getCollection().size() > 0) {
-            if (dataBaseConnection.clearCollectionByUser(user, getCollection()))
-                return "Коллекция успешно очищена! ";
-            else
-                return "Не удалось отчитсть коллекцию!";
-        } else {
-            return "Коллекция пуста! ";
+            return String.valueOf(dataBaseConnection.clearCollectionByUser(user, getCollection()));
         }
+        return "0";
     }
 
     /**
@@ -87,7 +82,7 @@ public class CollectionManager {
         if (getCollection().size() > 0) {
             return Objects.requireNonNull(getCollection().peek()).printInfoAboutElement();
         } else {
-            return "Коллекция пуста! ";
+            return null;
         }
     }
 
@@ -135,10 +130,10 @@ public class CollectionManager {
         if (getCollection().size() > 0) {
             PriorityQueue<Flat> queue = sortCollectionByComp(new NumberOfRoomsComparator());
             StringBuilder stringBuilder = new StringBuilder();
-            queue.forEach((flat -> stringBuilder.append(flat.getNumberOfRooms())));
-            return ("Значения поля numberOfRooms всех элементов в порядке убывания:\n " + stringBuilder.toString() + " ");
+            queue.forEach((flat -> stringBuilder.append(flat.getNumberOfRooms()).append("\t\n")));
+            return ("Значения поля numberOfRooms всех элементов в порядке убывания:\n" + stringBuilder.toString());
         } else {
-            return "Коллекция пуста! ";
+            return "Коллекция пуста!";
         }
     }
 
@@ -149,18 +144,16 @@ public class CollectionManager {
      * @return ответ клиенту
      */
     public SerializableAnswerToClient removeElementById(Long id, User user) {
+        Flat flat = null;
         if (getCollection().size() > 0) {
             if (getCollection().stream().filter((e) -> e.getId().equals(id)).count() == 1) {
-                if (dataBaseConnection.removeById(id, user, getCollection())) {
-                    return new SerializableAnswerToClient(MessageColor.ANSI_YELLOW, "Элемент успешно удален! ");
-                } else {
-                    return new SerializableAnswerToClient(MessageColor.ANSI_YELLOW, "Не удалось удалить элемент");
-                }
+                return new SerializableAnswerToClient(dataBaseConnection.removeById(id, user, getCollection()));
+
             } else {
-                return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Элемент с данным ID отсутствует в коллекции! ");
+                return new SerializableAnswerToClient((Flat) null);
             }
         } else {
-            return new SerializableAnswerToClient(MessageColor.ANSI_YELLOW, "Коллекция пуста! ");
+            return new SerializableAnswerToClient((Flat) null);
         }
     }
 
@@ -169,15 +162,11 @@ public class CollectionManager {
      *
      * @return ответ клиенту
      */
-    public String removeFirstElement(User user) {
+    public Flat removeFirstElement(User user) {
         if (getCollection().size() > 0) {
-            if (dataBaseConnection.removeFlatFromDBIfUserCorrectly(getCollection().peek(), user, getCollection())) {
-                return "Первый элемент успешно удален! ";
-            } else {
-                return "Не удалось удалить элемент";
-            }
+            return dataBaseConnection.removeFlatFromDBIfUserCorrectly(getCollection().peek(), user, getCollection());
         } else {
-            return "Коллекция пуста! ";
+            return null;
         }
     }
 
@@ -203,11 +192,11 @@ public class CollectionManager {
      * @return ответ клиенту
      */
     public SerializableAnswerToClient addElement(Flat flat) {
+        //flat.toString();
         if (flat != null) {
-            dataBaseConnection.addFlatToBD(flat, getCollection());
-            return new SerializableAnswerToClient(MessageColor.ANSI_YELLOW, "Элемент успешно добавлен в коллекцию! ");
+            return new SerializableAnswerToClient(dataBaseConnection.addFlatToBD(flat, getCollection()));
         } else {
-            return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Ошибка при добавлении элемента! Попробуйте еще раз. ");
+            return new SerializableAnswerToClient((Flat) null);
         }
     }
 
@@ -220,15 +209,9 @@ public class CollectionManager {
      */
     public SerializableAnswerToClient updateElement(Long id, Flat flat, User user) {
         if (getCollection().stream().filter((e) -> e.getId().equals(id)).count() == 1 && getCollection().size() > 0 && (flat != null)) {
-            if (dataBaseConnection.updateElementById(id, user, getCollection(), flat)) {
-                return new SerializableAnswerToClient(MessageColor.ANSI_GREEN, "Элемент успешно обновлен");
-            } else {
-                return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Не удалось обновить элемент");
-            }
+            return new SerializableAnswerToClient(dataBaseConnection.updateElementById(id, user, getCollection(), flat));
         } else {
-            return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Ошибка!!! Возможные причины: \n\t" +
-                    "> элемент с данным ID отсутствует в коллекции\n\t" +
-                    "> коллекция пуста\n Попробуйте еще раз.");
+            return new SerializableAnswerToClient((Flat) null);
         }
     }
 
@@ -241,23 +224,14 @@ public class CollectionManager {
     public SerializableAnswerToClient removeLower(Flat flat, User user) {
         if (getCollection().size() > 0) {
             if (flat != null) {
-                try {
-                    if (dataBaseConnection.removeLowerFlatsFromDB(flat, user, getCollection())) {
-                        return new SerializableAnswerToClient(MessageColor.ANSI_YELLOW, "Все элементы, меньше данного - удалены!");
-                    } else {
-                        return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Не удалось удалить элементы");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Что-то пошло не так... " + e.toString());
-                }
+                return dataBaseConnection.removeLowerFlatsFromDB(flat, user, getCollection());
             } else {
                 //Messages.normalMessageOutput("Не удалось получить элемент для сравнения.");
-                return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Не удалось получить элемент для сравнения. ");
+                return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Не удалось получить элемент для сравнения. ", null);
             }
         } else {
             //Messages.normalMessageOutput("В коллекции нет элементов, нечего удалять");
-            return new SerializableAnswerToClient(MessageColor.ANSI_PURPLE, "В коллекции нет элементов, нечего удалять ");
+            return new SerializableAnswerToClient(MessageColor.ANSI_PURPLE, "В коллекции нет элементов, нечего удалять ", null);
         }
         //Messages.normalMessageOutput("Все элементы, меньше данного - удалены!");
     }

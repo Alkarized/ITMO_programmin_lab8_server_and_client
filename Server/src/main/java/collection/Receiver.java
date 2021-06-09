@@ -23,7 +23,7 @@ public class Receiver {
         return new SerializableAnswerToClient(MessageColor.ANSI_YELLOW,
                 "help : вывести справку по доступным командам\n" +
                         "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +
-                        "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +
+                        //"show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +
                         "add {element} : добавить новый элемент в коллекцию\n" +
                         "update id {element} : обновить значение элемента коллекции, id которого равен заданному\n" +
                         "remove_by_id id : удалить элемент из коллекции по его id\n" +
@@ -51,7 +51,7 @@ public class Receiver {
 
     public SerializableAnswerToClient removeFirst(User user) throws IOException, ClassNotFoundException {
         //Messages.getLogger().info("Комманда выполнена");
-        return new SerializableAnswerToClient(MessageColor.ANSI_YELLOW, collectionManager.removeFirstElement(user));
+        return new SerializableAnswerToClient(collectionManager.removeFirstElement(user));
     }
 
     public SerializableAnswerToClient printFieldDescendingNumberOfRooms() throws IOException, ClassNotFoundException {
@@ -97,5 +97,9 @@ public class Receiver {
 
     public SerializableAnswerToClient authClient(User user) throws IOException, ClassNotFoundException {
         return collectionManager.authClient(user);
+    }
+
+    public SerializableAnswerToClient getCollection(){
+        return new SerializableAnswerToClient(collectionManager.getCollection());
     }
 }

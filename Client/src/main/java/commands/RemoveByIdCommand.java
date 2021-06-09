@@ -4,6 +4,7 @@ package commands;
 import client.Receiver;
 import message.MessageColor;
 import message.Messages;
+import utils.SerializableAnswerToClient;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -18,12 +19,12 @@ public class RemoveByIdCommand extends Command implements Serializable {
     }
 
     @Override
-    public void execute(String[] args) {
+    public SerializableAnswerToClient execute(String[] args) {
 
         try {
             if (args.length == 2) {
                 Long.valueOf(args[1]);
-                receiver.removeById(args);
+                return receiver.removeById(args);
             } else
                 throw new NumberFormatException();
         } catch (NumberFormatException e) {
@@ -31,12 +32,12 @@ public class RemoveByIdCommand extends Command implements Serializable {
         } catch (IOException | ClassNotFoundException e) {
             Messages.normalMessageOutput("Что-то пошло не так..." + e.toString(), MessageColor.ANSI_RED);
         }
-
+        return null;
     }
 
     @Override
-    public void execute(String[] args, Scanner scanner) {
-        execute(args);
+    public SerializableAnswerToClient execute(String[] args, Scanner scanner) {
+        return execute(args);
     }
 
 }

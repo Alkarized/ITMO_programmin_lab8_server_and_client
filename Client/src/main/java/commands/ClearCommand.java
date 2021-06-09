@@ -4,6 +4,7 @@ package commands;
 import client.Receiver;
 import message.MessageColor;
 import message.Messages;
+import utils.SerializableAnswerToClient;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -18,21 +19,22 @@ public class ClearCommand extends Command implements Serializable {
     }
 
     @Override
-    public void execute(String[] args) {
+    public SerializableAnswerToClient execute(String[] args) {
 
         try {
             if (args.length == 1)
-                receiver.clear();
+                return receiver.clear();
             else
                 Messages.normalMessageOutput("Неправильно введены аргументы", MessageColor.ANSI_RED);
         } catch (IOException | ClassNotFoundException e1) {
             Messages.normalMessageOutput("Что-то пошло не так..." + e1.toString(), MessageColor.ANSI_RED);
         }
+        return null;
     }
 
     @Override
-    public void execute(String[] args, Scanner scanner) {
-        execute(args);
+    public SerializableAnswerToClient execute(String[] args, Scanner scanner) {
+        return execute(args);
     }
 
 }

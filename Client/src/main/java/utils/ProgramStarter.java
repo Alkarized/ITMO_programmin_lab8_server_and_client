@@ -15,7 +15,9 @@ import java.util.Scanner;
 
 public class ProgramStarter {
 
+    @Getter
     private final Invoker invoker;
+    @Getter
     private final Receiver receiver;
     private final Connection connection;
     @Getter @Setter
@@ -52,6 +54,7 @@ public class ProgramStarter {
         invoker.registerNewCommand("remove_lower", new RemoveLowerCommand(receiver));
         invoker.registerNewCommand("show", new ShowCommand(receiver));
         invoker.registerNewCommand("update", new UpdateByIdCommand(receiver));
+        invoker.registerNewCommand("getCollection", new GetCollectionCommand(receiver));
     }
 }
 

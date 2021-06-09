@@ -1,8 +1,10 @@
 package utils;
 
+import fields.Flat;
 import message.MessageColor;
 
 import java.io.Serializable;
+import java.util.PriorityQueue;
 
 public class SerializableAnswerToClient implements Serializable {
     private static final long serialVersionUID = 12324123;
@@ -10,6 +12,8 @@ public class SerializableAnswerToClient implements Serializable {
     private MessageColor color;
     private String ans;
     private Boolean bool;
+    private Flat flat;
+    private PriorityQueue<Flat> queue;
 
     public SerializableAnswerToClient(MessageColor color, String ans) {
         this.color = color;
@@ -38,5 +42,24 @@ public class SerializableAnswerToClient implements Serializable {
 
     public void setBool(Boolean bool) {
         this.bool = bool;
+    }
+
+    public Flat getFlat() {
+        return flat;
+    }
+
+    public void setFlat(Flat flat) {
+        this.flat = flat;
+    }
+
+    public PriorityQueue<Flat> getQueue() {
+        return queue;
+    }
+
+    public void setQueue(PriorityQueue<Flat> queue) {
+        this.queue = queue;
+    }
+
+    public SerializableAnswerToClient() {
     }
 }

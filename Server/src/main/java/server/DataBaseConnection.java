@@ -2,12 +2,14 @@ package server;
 
 import fields.Flat;
 import fields.User;
+import message.MessageColor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import utils.EncryptMD2;
+import utils.SerializableAnswerToClient;
 
 import java.util.List;
 import java.util.PriorityQueue;
@@ -42,26 +44,31 @@ public class DataBaseConnection {
                 .openSession();
     }
 
-    public synchronized boolean addFlatToBD(Flat flat, PriorityQueue<Flat> queue) {
-        Transaction transaction = session.getTransaction();
+    public Flat addFlatToBD(Flat flat, PriorityQueue<Flat> queue) {
+        try {
+            Transaction transaction = session.getTransaction();
 
-        if (!transaction.isActive()) {
-            transaction.begin();
-        }
-        session.save(flat.getCoordinates());
-        session.save(flat.getHouse());
-        session.save(flat);
-        transaction.commit();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            session.save(flat.getCoordinates());
+            session.save(flat.getHouse());
+            session.save(flat);
+            transaction.commit();
 
-        if (transaction.getStatus().equals(TransactionStatus.COMMITTED)) {
-            queue.add(flat);
-            return true;
-        } else {
-            return false;
+            if (transaction.getStatus().equals(TransactionStatus.COMMITTED)) {
+                queue.add(flat);
+                return flat;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
-    public boolean removeFlatFromDBIfUserCorrectly(Flat flat, User user, PriorityQueue<Flat> queue) {
+    public Flat removeFlatFromDBIfUserCorrectly(Flat flat, User user, PriorityQueue<Flat> queue) {
         Transaction transaction = session.getTransaction();
 
         if (!transaction.isActive()) {
@@ -71,16 +78,16 @@ public class DataBaseConnection {
         if (flat.getUser().getUsername().equals(user.getUsername()) && flat.getUser().getPassword().equals(user.getPassword())) {
             session.remove(flat);
         } else {
-            return false;
+            return null;
         }
 
         transaction.commit();
 
         if (transaction.getStatus().equals(TransactionStatus.COMMITTED)) {
             queue.remove(flat);
-            return true;
+            return flat;
         } else {
-            return false;
+            return null;
         }
     }
 
@@ -88,23 +95,28 @@ public class DataBaseConnection {
         return (List<Flat>) session.createQuery("FROM Flat").list();
     }
 
-    public boolean clearCollectionByUser(User user, PriorityQueue<Flat> queue) {
+    public int clearCollectionByUser(User user, PriorityQueue<Flat> queue) {
         Transaction transaction = session.getTransaction();
         if (!transaction.isActive()) {
             transaction.begin();
         }
-        User userDB = session.get(User.class, user.getUsername());
-        if (userDB.getFlats().size() < 1) return false;
-        userDB.getFlats().clear();
-        session.update(userDB);
-
+        //User userDB = session.get(User.class, user.getUsername());
+        //System.out.println("count - " + userDB.getFlats().size());
+        //System.out.println(queue);
+        //if (userDB.getFlats().size() < 1) return 0;
+        //int count = userDB.getFlats().size();
+        //userDB.getFlats().clear();
+        //session.update(userDB);
+        int count = Math.toIntExact(queue.stream().filter(e -> e.getUser().getUsername().equals(user.getUsername())).count());
+        queue.stream()
+                .filter((e)-> e.getUser().getUsername().equals(user.getUsername()))
+                .forEach((e)-> session.remove(e));
         transaction.commit();
-
         if (transaction.getStatus().equals(TransactionStatus.COMMITTED)) {
-            queue.removeIf(flat -> flat.getUser().getUsername().equals(user.getUsername()));
-            return true;
+            queue.removeIf((e)->e.getUser().getUsername().equals(user.getUsername()));
+            return count;
         } else {
-            return false;
+            return 0;
         }
     }
 
@@ -141,7 +153,7 @@ public class DataBaseConnection {
         }
     }
 
-    public boolean removeById(Long id, User user, PriorityQueue<Flat> queue) {
+    public Flat removeById(Long id, User user, PriorityQueue<Flat> queue) {
         Transaction transaction = session.getTransaction();
         if (!transaction.isActive()) {
             transaction.begin();
@@ -151,19 +163,19 @@ public class DataBaseConnection {
         if (user.getUsername().equals(flat.getUser().getUsername())) {
             session.remove(flat);
         } else {
-            return false;
+            return null;
         }
         transaction.commit();
 
         if (transaction.getStatus().equals(TransactionStatus.COMMITTED)) {
             queue.remove(flat);
-            return true;
+            return flat;
         } else {
-            return false;
+            return null;
         }
     }
 
-    public boolean updateElementById(Long id, User user, PriorityQueue<Flat> queue, Flat flat) {
+    public Flat updateElementById(Long id, User user, PriorityQueue<Flat> queue, Flat flat) {
         Transaction transaction = session.getTransaction();
         if (!transaction.isActive()) {
             transaction.begin();
@@ -185,7 +197,7 @@ public class DataBaseConnection {
             session.update(flatDB);
 
         } else {
-            return false;
+            return null;
         }
         try {
             transaction.commit();
@@ -197,13 +209,13 @@ public class DataBaseConnection {
             queue.remove(flatDBTEMP);
             queue.add(flatDB);
 
-            return true;
+            return flatDB;
         } else {
-            return false;
+            return null;
         }
     }
 
-    public boolean removeLowerFlatsFromDB(Flat flat, User user, PriorityQueue<Flat> queue) {
+    public SerializableAnswerToClient removeLowerFlatsFromDB(Flat flat, User user, PriorityQueue<Flat> queue) {
         Transaction transaction = session.getTransaction();
         if (!transaction.isActive()) {
             transaction.begin();
@@ -211,7 +223,7 @@ public class DataBaseConnection {
 
         PriorityQueue<Flat> localQueue = new PriorityQueue<>(queue);
         if (localQueue.stream().filter(e -> e.compareTo(flat) < 0 && e.getUser().getUsername().equals(user.getUsername())).count() < 1) {
-            return false;
+            return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Не удалось удалить элементы", null);
         } else {
             localQueue.stream()
                     .filter(e -> e.compareTo(flat) < 0 && e.getUser().getUsername().equals(user.getUsername()))
@@ -225,9 +237,9 @@ public class DataBaseConnection {
             queue.clear();
             queue.addAll(localQueue);
 
-            return true;
+            return new SerializableAnswerToClient(MessageColor.ANSI_YELLOW, "Все элементы, меньше данного - удалены!", queue);
         } else {
-            return false;
+            return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Не удалось удалить элементы", null);
         }
     }
 }
