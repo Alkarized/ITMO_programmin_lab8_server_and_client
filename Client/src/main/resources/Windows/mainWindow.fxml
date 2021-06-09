@@ -102,14 +102,14 @@
                         <ImageView layoutY="-10" fitHeight="120" fitWidth="120">
                             <Image url="/Pics/vt2021.png"/>
                         </ImageView>
-                        <Button fx:id="coordinatesButton" alignment="CENTER" prefWidth="150">
+                        <Button fx:id="coordinatesButton" onMouseClicked="#openCoordinatesWindow" alignment="CENTER" prefWidth="150">
                             <text>
                                 Coordinates
                             </text>
                         </Button>
                     </VBox>
                     <Button layoutY="-10" layoutX="65" prefWidth="40" prefHeight="40"
-                            fx:id="settingsButton">
+                            fx:id="settingsButton" onMouseClicked="#openSettingsWindow">
                         <graphic>
                             <ImageView fitWidth="40" fitHeight="40">
                                 <Image url="/Pics/settings.png"/>
