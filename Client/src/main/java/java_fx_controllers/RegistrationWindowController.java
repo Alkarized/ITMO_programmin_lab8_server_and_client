@@ -1,13 +1,16 @@
 package java_fx_controllers;
 
+import animations.Flicker;
 import animations.Shake;
 import fields.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 import utils.AuthRegisterUser;
@@ -21,8 +24,14 @@ public class RegistrationWindowController {
     @Setter
     public AuthRegisterUser authRegisterUser;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public JavaFXWorker javaFXWorker;
+
+    @FXML
+    @Getter
+    @Setter
+    public TextField loginField;
 
     @FXML
     @Getter
@@ -45,6 +54,9 @@ public class RegistrationWindowController {
     public Button registerButton;
 
     @FXML
+    public ImageView settingsButton;
+
+    @FXML
     @Getter
     @Setter
     private Text welcomeText;
@@ -57,11 +69,6 @@ public class RegistrationWindowController {
     /*@FXML @Getter @Setter
     private Hyperlink forgetPwdLink;*/
 
-    @FXML
-    @Getter
-    @Setter
-    public TextField loginField;
-
     public void setText() { //todo
         passwordField.setPromptText("password");
         loginButton.setText("Log in");
@@ -73,9 +80,13 @@ public class RegistrationWindowController {
 
     public void tryLogin(MouseEvent mouseEvent) throws IOException {
         if (loginField.getText().equals("") || passwordField.getText().equals("")){
-            Shake shake = new Shake(errorText);
+            Shake loginFieldShake = new Shake(loginField);
+            Shake passwordFieldShake = new Shake(passwordField);
+            Flicker textFlicker = new Flicker(errorText);
             errorText.setText("Не введен логин или пароль");
-            shake.shaking();
+            textFlicker.flicking();
+            loginFieldShake.shaking();
+            passwordFieldShake.shaking();
             return;
         }
         String text = authRegisterUser.authorizeUser(new User(loginField.getText(), passwordField.getText()));
@@ -90,18 +101,31 @@ public class RegistrationWindowController {
 
     public void tryRegister(MouseEvent mouseEvent) throws IOException {
         if (loginField.getText().equals("") || passwordField.getText().equals("")){
-            Shake shake = new Shake(errorText);
+            Shake loginFieldShake = new Shake(loginField);
+            Shake passwordFieldShake = new Shake(passwordField);
+            Flicker textFlicker = new Flicker(errorText);
             errorText.setText("Не введен логин или пароль");
-            shake.shaking();
+            textFlicker.flicking();
+            loginFieldShake.shaking();
+            passwordFieldShake.shaking();
             return;
         }
         String text = authRegisterUser.registerNewUser(new User(loginField.getText(), passwordField.getText()));
         if (text.equals("")){
             javaFXWorker.setMainWindow();
         } else {
-            Shake shake = new Shake(errorText);
+            Shake loginFieldShake = new Shake(loginField);
+            Shake passwordFieldShake = new Shake(passwordField);
+            Flicker textFlicker = new Flicker(errorText);
             errorText.setText(text);
-            shake.shaking();
+            textFlicker.flicking();
+            loginFieldShake.shaking();
+            passwordFieldShake.shaking();
         }
+    }
+
+    public void openSettingsWindow(MouseEvent mouseEvent) {
+        SettingsController settingsPage = new SettingsController();
+        settingsPage.start(new Stage());
     }
 }

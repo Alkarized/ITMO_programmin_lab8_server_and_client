@@ -11,6 +11,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +32,9 @@ import java.util.TimerTask;
 
 
 public class MainWindowController {
+
+    @FXML
+    public Button coordinatesButton;
 
     private HashFields hashFields;
     @FXML
@@ -59,6 +64,7 @@ public class MainWindowController {
     @Getter
     @Setter
     private Invoker invoker;
+
     @Getter
     @Setter
     private JavaFXWorker javaFXWorker;
@@ -66,8 +72,12 @@ public class MainWindowController {
     @Setter
     private String userName;
 
+    @FXML
+    private Button settingsButton;
+
     private ObservableList<Flat> listOfFlatsForAnim;
 
+    private final String unknownErrText = "Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф";
     private Timer timer;
 
     public void initALlColumns() {
@@ -191,6 +201,7 @@ public class MainWindowController {
         hashFields.registerNewField("House_NumberOfFlats", numberOfFlatsOfHouseColumn);
 
         listOfFlatsForAnim = getList(new PriorityQueue<>());
+
         textArea.appendText("");
     }
 
@@ -250,7 +261,7 @@ public class MainWindowController {
                     alert.showAndWait();
                 }
             } else {
-                textArea.appendText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
+                textArea.appendText(unknownErrText);
                 textArea.appendText("\n");
             }
         } else {
@@ -278,7 +289,7 @@ public class MainWindowController {
             }
             alert.showAndWait();
         } else {
-            textArea.appendText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
+            textArea.appendText(unknownErrText);
             textArea.appendText("\n");
         }
     }
@@ -298,7 +309,7 @@ public class MainWindowController {
             }
             alert.showAndWait();
         } else {
-            textArea.appendText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
+            textArea.appendText(unknownErrText);
             textArea.appendText("\n");
         }
     }
@@ -318,7 +329,8 @@ public class MainWindowController {
             }
             alert.showAndWait();
         } else {
-            textArea.appendText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
+            textArea.appendText(unknownErrText);
+
             textArea.appendText("\n");
         }
     }
@@ -344,8 +356,9 @@ public class MainWindowController {
                 alert.showAndWait();
             }
         } else {
-            textArea.appendText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
+            textArea.appendText(unknownErrText);
             textArea.appendText("\n");
+
         }
     }
 
@@ -380,8 +393,8 @@ public class MainWindowController {
                 alert.showAndWait();
             }
         } else {
-            textArea.appendText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
-            textArea.appendText("\n");
+          textArea.appendText(unknownErrText);
+          textArea.appendText("\n");
         }
     }
 
@@ -406,7 +419,7 @@ public class MainWindowController {
                     alert.showAndWait();
                 }
             } else {
-                textArea.appendText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
+                textArea.appendText(unknownErrText);
                 textArea.appendText("\n");
             }
         }
@@ -436,8 +449,9 @@ public class MainWindowController {
                     alert.showAndWait();
                 }
             } else {
-                textArea.appendText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
-                textArea.appendText("\n");
+              textArea.appendText(unknownErrText);
+              textArea.appendText("\n");
+
             }
         }
     }
@@ -449,7 +463,7 @@ public class MainWindowController {
         if (answer != null) {
             table.getItems().add(answer.getFlat());
         } else {
-            textArea.appendText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
+            textArea.appendText(unknownErrText);
             textArea.appendText("\n");
         }
 
@@ -466,7 +480,8 @@ public class MainWindowController {
             alert.setContentText(answer.getAns());
             alert.showAndWait();
         } else {
-            textArea.appendText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
+
+            textArea.appendText(unknownErrText;
             textArea.appendText("\n");
         }
 
@@ -477,9 +492,14 @@ public class MainWindowController {
         args[0] = "help";
         SerializableAnswerToClient answer = invoker.executeCommand(null, args);
         if (answer != null) {
+            textArea.setText(answer.getAns());
+            textArea.setScrollTop(Double.MIN_VALUE);
+            textArea.appendText("");
+        }
+        if (answer == null) {
             textArea.appendText(answer.getAns());
         } else {
-            textArea.appendText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
+            textArea.appendText(unknownErrText);
         }
         textArea.appendText("\n");
     }
@@ -491,7 +511,8 @@ public class MainWindowController {
         if (answer != null) {
             textArea.appendText(answer.getAns());
         } else {
-            textArea.appendText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
+            textArea.appendText(unknownErrText);
+
         }
         textArea.appendText("\n");
     }
@@ -500,6 +521,27 @@ public class MainWindowController {
         FiltrationWindow window = new FiltrationWindow(table, hashFields);
         window.display();
     }
+
+    public void openSettingsWindow(MouseEvent mouseEvent) {
+        SettingsController settingsPage = new SettingsController();
+        settingsPage.start(new Stage());
+    }
+
+    public void openCoordinatesWindow(MouseEvent mouseEvent) {
+        CoordinatesPageController coordinatesPageStage = new CoordinatesPageController(listOfFlatsForAnim);
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        coordinatesPageStage.start(stage);
+    }
+
+    public void start() {
+        try {
+            javaFXWorker.setMainWindow();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
 
     @FXML
     public void initialize() {
@@ -520,3 +562,4 @@ public class MainWindowController {
         }, 5000, 5000);
     }
 }
+
