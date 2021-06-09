@@ -81,6 +81,9 @@
                 <Button fx:id="printFieldButton" onMouseClicked="#printFields">
                     Print field desc
                 </Button>
+                <Button fx:id="filtration" onMouseClicked="#openFilters">
+                    Filtration
+                </Button>
                 <Button fx:id="exitButton" onMouseClicked="#exit">
                     Exit
                 </Button>

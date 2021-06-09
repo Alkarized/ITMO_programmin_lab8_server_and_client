@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import utils.MainLocale;
 import utils.ProgramStarter;
+import windows.FiltrationWindow;
 import windows.FlatCreationWindow;
 import windows.JavaFXWorker;
 import windows.RegisterAlertBoxController;

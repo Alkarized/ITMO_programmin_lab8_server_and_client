@@ -6,10 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -17,8 +14,10 @@ import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 import utils.FlatGetter;
+import utils.HashFields;
 import utils.SerializableAnswerToClient;
 import windows.AlertQuestionOfNumberOfRooms;
+import windows.FiltrationWindow;
 import windows.JavaFXWorker;
 
 import java.io.IOException;
@@ -28,6 +27,11 @@ import java.util.PriorityQueue;
 
 public class MainWindowController {
 
+    private HashFields hashFields;
+    @FXML
+    @Getter
+    @Setter
+    private Button filtration;
     @FXML
     @Getter
     @Setter
@@ -59,6 +63,7 @@ public class MainWindowController {
     private String userName;
 
     public void initALlColumns() {
+        hashFields = new HashFields();
         TableColumn<Flat, Long> idColumn = new TableColumn<>("id");
         idColumn.setPrefWidth(120);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -161,6 +166,21 @@ public class MainWindowController {
         priorityQueue.add(flat1);
         priorityQueue.add(flat2);
         table.setItems(getList(priorityQueue));*/
+
+        hashFields.registerNewField("ID", idColumn);
+        hashFields.registerNewField("Username", userNameColumn);
+        hashFields.registerNewField("Creation Date", dateColumn);
+        hashFields.registerNewField("Name", nameColumn);
+        hashFields.registerNewField("Area", areaColumn);
+        hashFields.registerNewField("Number Of Rooms", numberOfRoomsColumn);
+        hashFields.registerNewField("Furnish", furnishColumn);
+        hashFields.registerNewField("View",viewColumn);
+        hashFields.registerNewField("Transport",transportColumn);
+        hashFields.registerNewField("Coordinates_X", xCoordColumn);
+        hashFields.registerNewField("Coordinates_Y", yCoordColumn);
+        hashFields.registerNewField("House_Name", nameOfHouseColumn);
+        hashFields.registerNewField("House_Year", houseYearColumn);
+        hashFields.registerNewField("House_NumberOfFlats", numberOfFlatsOfHouseColumn);
     }
 
     public void setTextToColumns() {
@@ -255,7 +275,7 @@ public class MainWindowController {
             alert.setTitle("Элемент коллекции: ");//todo
             alert.setHeaderText("Удалить или не удалить вот в чем ворос?");
             alert.setContentText(answer.getAns());
-            if (answer.getQueue() != null){
+            if (answer.getQueue() != null) {
                 table.getItems().clear();
                 table.getItems().addAll(answer.getQueue());
             }
@@ -441,5 +461,10 @@ public class MainWindowController {
         } else {
             textArea.setText("Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф");
         }
+    }
+
+    public void openFilters(MouseEvent mouseEvent) {
+        FiltrationWindow window = new FiltrationWindow(table, hashFields);
+        window.display();
     }
 }

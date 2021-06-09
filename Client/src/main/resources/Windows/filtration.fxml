@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.TextFlow?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="java_fx_controllers.FiltrationController">
+    <spacing>20</spacing>
+    <padding>
+        <Insets top="10" left="10" bottom="10" right="10"/>
+    </padding>
+    <HBox alignment="CENTER_LEFT">
+        <spacing>10</spacing>
+       <Text textAlignment="CENTER">
+           Фильтр по полю:
+       </Text>
+        <ChoiceBox fx:id="choiceBox">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Username"/>
+                    <String fx:value="ID"/>
+                    <String fx:value="Creation Date"/>
+                    <String fx:value="Name"/>
+                    <String fx:value="Area"/>
+                    <String fx:value="Number Of Rooms"/>
+                    <String fx:value="Furnish"/>
+                    <String fx:value="View"/>
+                    <String fx:value="Transport"/>
+                    <String fx:value="Coordinates_X"/>
+                    <String fx:value="Coordinates_Y"/>
+                    <String fx:value="House_Name"/>
+                    <String fx:value="House_Year"/>
+                    <String fx:value="House_NumberOfFlats"/>
+                </FXCollections>
+            </items>
+        </ChoiceBox>
+    </HBox>
+    <HBox>
+        <spacing> 10</spacing>
+        <Text textAlignment="CENTER">
+            Значение
+        </Text>
+        <TextField fx:id="textField" alignment="CENTER">
+
+        </TextField>
+    </HBox>
+    <HBox alignment="CENTER_LEFT">
+        <spacing>20</spacing>
+        <RadioButton fx:id="radioContains">
+            Содержит
+        </RadioButton>
+        <RadioButton fx:id="radioNotContains">
+            Не содержит
+        </RadioButton>
+    </HBox>
+    <TextFlow textAlignment="CENTER">
+        <Text fx:id="errorText">
+
+        </Text>
+    </TextFlow>
+    <HBox>
+        <spacing>20</spacing>
+        <Button fx:id="clearFilter" text="Убрать фильтр"/>
+        <Button fx:id="useFilter" alignment="CENTER_RIGHT" text="Применить фильтр"/>
+    </HBox>
+</VBox>
