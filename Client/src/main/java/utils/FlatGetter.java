@@ -1,8 +1,6 @@
 package utils;
 
 import fields.Flat;
-import lombok.Getter;
-import lombok.Setter;
 
 public class FlatGetter {
     private static Flat flat;

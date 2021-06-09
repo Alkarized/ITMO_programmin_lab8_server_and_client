@@ -62,7 +62,7 @@ public class RegistrationWindowController {
     @Setter
     public TextField loginField;
 
-    public void setText() {
+    public void setText() { //todo
         passwordField.setPromptText("password");
         loginButton.setText("Log in");
         registerButton.setText("Register");
@@ -72,6 +72,12 @@ public class RegistrationWindowController {
     }
 
     public void tryLogin(MouseEvent mouseEvent) throws IOException {
+        if (loginField.getText().equals("") || passwordField.getText().equals("")){
+            Shake shake = new Shake(errorText);
+            errorText.setText("Не введен логин или пароль");
+            shake.shaking();
+            return;
+        }
         String text = authRegisterUser.authorizeUser(new User(loginField.getText(), passwordField.getText()));
         if (text.equals("")){
             javaFXWorker.setMainWindow();
@@ -83,6 +89,12 @@ public class RegistrationWindowController {
     }
 
     public void tryRegister(MouseEvent mouseEvent) throws IOException {
+        if (loginField.getText().equals("") || passwordField.getText().equals("")){
+            Shake shake = new Shake(errorText);
+            errorText.setText("Не введен логин или пароль");
+            shake.shaking();
+            return;
+        }
         String text = authRegisterUser.registerNewUser(new User(loginField.getText(), passwordField.getText()));
         if (text.equals("")){
             javaFXWorker.setMainWindow();

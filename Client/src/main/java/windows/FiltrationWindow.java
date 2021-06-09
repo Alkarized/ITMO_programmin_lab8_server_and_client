@@ -29,12 +29,12 @@ public class FiltrationWindow {
     @Getter @Setter
     private HashFields hashFields;
     private final ArrayList<Flat> eatenItems = new ArrayList<>();
-
+    private boolean isClickedClear = false;
     @SneakyThrows
     public void display() {
         Stage window = new Stage();
         window.setTitle("filter"); //todo
-        window.initModality(Modality.NONE);
+        window.initModality(Modality.APPLICATION_MODAL);
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Windows/filtration.fxml"));
@@ -47,7 +47,11 @@ public class FiltrationWindow {
             filtrationController.getRadioNotContains().setSelected(false);
             filtrationController.getTextField().clear();
             filtrationController.getErrorText().setText("");
-            tableView.getItems().addAll(eatenItems);
+            if (!isClickedClear){
+                tableView.getItems().addAll(eatenItems);
+                eatenItems.clear();
+                isClickedClear = true;
+            }
         });
         filtrationController.getUseFilter().setOnMouseClicked((event -> {
             if (filtrationController.getChoiceBox().getValue() == null) {
@@ -58,16 +62,17 @@ public class FiltrationWindow {
                 tableView.getItems().addAll(eatenItems);
                 eatenItems.clear();
                 TableColumn<Flat, ?> tableColumn = hashFields.getHash().get(filtrationController.getChoiceBox().getValue());
-                for (Flat flat : tableView.getItems()) {
-                    if (filtrationController.getRadioContains().isSelected() &&
-                            String.valueOf(tableColumn.getCellObservableValue(flat).getValue()).contains(filtrationController.getTextField().getText())
-                            || filtrationController.getRadioNotContains().isSelected() &&
-                            !String.valueOf(tableColumn.getCellObservableValue(flat).getValue()).contains(filtrationController.getTextField().getText())) {
+                tableView.getItems().forEach((flat)->{
+                    if ((filtrationController.getRadioContains().isSelected() &&
+                            !String.valueOf(tableColumn.getCellObservableValue(flat).getValue()).contains(filtrationController.getTextField().getText()))
+                            || (filtrationController.getRadioNotContains().isSelected() &&
+                            String.valueOf(tableColumn.getCellObservableValue(flat).getValue()).contains(filtrationController.getTextField().getText()))) {
                         eatenItems.add(flat);
-                        tableView.getItems().remove(flat);
-                    }
-                }
 
+                        isClickedClear = false;
+                    }
+                });
+                tableView.getItems().removeAll(eatenItems);
             }
         }));
 

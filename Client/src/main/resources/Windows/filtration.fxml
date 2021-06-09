@@ -68,7 +68,7 @@
     </TextFlow>
     <HBox>
         <spacing>20</spacing>
-        <Button fx:id="clearFilter" text="Убрать фильтр"/>
         <Button fx:id="useFilter" alignment="CENTER_RIGHT" text="Применить фильтр"/>
+        <Button fx:id="clearFilter" text="Убрать фильтр"/>
     </HBox>
 </VBox>
