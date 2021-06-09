@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<BorderPane stylesheets="/Styles/registerWindow.css" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="java_fx_controllers.RegistrationWindowController"
-            prefHeight="400.0" prefWidth="400.0">
+
+<?import javafx.scene.Cursor?>
+<BorderPane prefHeight="400.0" prefWidth="400.0" stylesheets="/Styles/registerWindow.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="java_fx_controllers.RegistrationWindowController">
     <top>
         <VBox alignment="CENTER">
             <spacing>60</spacing>
             <padding>
-                <Insets right="80" left="80" top="60" bottom="40"/>
+                <Insets bottom="40" left="80" right="80" top="60" />
             </padding>
-            <Text textAlignment="CENTER" scaleY="3" scaleX="3" fx:id="welcomeText"/>
-            <Text textAlignment="CENTER" scaleX="1.6" scaleY="1.6" fx:id="registerOrAuthText"/>
+            <Text fx:id="welcomeText" scaleX="3" scaleY="3" textAlignment="CENTER" />
+            <Text fx:id="registerOrAuthText" scaleX="1.6" scaleY="1.6" textAlignment="CENTER" />
         </VBox>
     </top>
     <center>
@@ -24,26 +29,42 @@
             <HBox alignment="CENTER">
                 <spacing>20</spacing>
                 <padding>
-                    <Insets right="10" left="10"/>
+                    <Insets left="10" right="10" />
                 </padding>
-                <TextField fx:id="loginField" scaleX="1.2" scaleY="1.2"/>
+                <TextField fx:id="loginField" scaleX="1.2" scaleY="1.2" />
             </HBox>
             <HBox alignment="CENTER">
                 <spacing>20</spacing>
                 <padding>
-                    <Insets right="10" left="10"/>
+                    <Insets left="10" right="10" />
                 </padding>
-                <PasswordField fx:id="passwordField" scaleX="1.2" scaleY="1.2"/>
+                <PasswordField fx:id="passwordField" scaleX="1.2" scaleY="1.2" />
             </HBox>
             <HBox alignment="CENTER">
-                <Text fx:id="errorText" style="-fx-text-fill: red"/>
+                <Text fx:id="errorText" style="-fx-text-fill: red" />
             </HBox>
             <HBox alignment="CENTER">
-                <Button fx:id="loginButton" onMouseClicked="#tryLogin" prefWidth="100" alignment="CENTER"/>
+                <Button fx:id="loginButton" alignment="CENTER" onMouseClicked="#tryLogin" prefWidth="100" >
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
             </HBox>
             <HBox alignment="CENTER">
-                <Button fx:id="registerButton" onMouseClicked="#tryRegister" prefWidth="100" alignment="CENTER"/>
+                <Button fx:id="registerButton" alignment="CENTER" onMouseClicked="#tryRegister" prefWidth="100" >
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
             </HBox>
+         <ImageView fx:id="settingsButton" onMouseClicked="#openSettingsWindow" fitHeight="34.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../Pics/settings.png" />
+            </image>
+             <cursor>
+                 <Cursor fx:constant="HAND" />
+             </cursor>
+         </ImageView>
             <!--<HBox alignment="BOTTOM_RIGHT">
                 <padding>
                     <Insets top="10" right="10"/>

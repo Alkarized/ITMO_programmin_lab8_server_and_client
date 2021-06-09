@@ -7,8 +7,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 import utils.AuthRegisterUser;
@@ -50,6 +52,9 @@ public class RegistrationWindowController {
     @Getter
     @Setter
     public Button registerButton;
+
+    @FXML
+    public ImageView settingsButton;
 
     @FXML
     @Getter
@@ -117,5 +122,10 @@ public class RegistrationWindowController {
             loginFieldShake.shaking();
             passwordFieldShake.shaking();
         }
+    }
+
+    public void openSettingsWindow(MouseEvent mouseEvent) {
+        SettingsController settingsPage = new SettingsController();
+        settingsPage.start(new Stage());
     }
 }
