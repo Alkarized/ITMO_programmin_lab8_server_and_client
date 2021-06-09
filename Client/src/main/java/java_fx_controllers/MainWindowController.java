@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 import utils.FlatGetter;
@@ -22,9 +23,12 @@ import windows.AlertQuestionOfNumberOfRooms;
 import windows.FiltrationWindow;
 import windows.JavaFXWorker;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.PriorityQueue;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainWindowController {
@@ -74,6 +78,7 @@ public class MainWindowController {
     private ObservableList<Flat> listOfFlatsForAnim;
 
     private final String unknownErrText = "Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф";
+    private Timer timer;
 
     public void initALlColumns() {
         hashFields = new HashFields();
@@ -187,8 +192,8 @@ public class MainWindowController {
         hashFields.registerNewField("Area", areaColumn);
         hashFields.registerNewField("Number Of Rooms", numberOfRoomsColumn);
         hashFields.registerNewField("Furnish", furnishColumn);
-        hashFields.registerNewField("View",viewColumn);
-        hashFields.registerNewField("Transport",transportColumn);
+        hashFields.registerNewField("View", viewColumn);
+        hashFields.registerNewField("Transport", transportColumn);
         hashFields.registerNewField("Coordinates_X", xCoordColumn);
         hashFields.registerNewField("Coordinates_Y", yCoordColumn);
         hashFields.registerNewField("House_Name", nameOfHouseColumn);
@@ -196,6 +201,8 @@ public class MainWindowController {
         hashFields.registerNewField("House_NumberOfFlats", numberOfFlatsOfHouseColumn);
 
         listOfFlatsForAnim = getList(new PriorityQueue<>());
+
+        textArea.appendText("");
     }
 
     public void setTextToColumns() {
@@ -205,9 +212,10 @@ public class MainWindowController {
         if (answer != null) {
             table.setItems(getList(answer.getQueue()));
             listOfFlatsForAnim.retainAll(getList(answer.getQueue()));
-            answer.getQueue().stream().filter((e)->!listOfFlatsForAnim.contains(e)).forEach((e)->listOfFlatsForAnim.add(e));
+            answer.getQueue().stream().filter((e) -> !listOfFlatsForAnim.contains(e)).forEach((e) -> listOfFlatsForAnim.add(e));
         } else {
-            textArea.setText("Ощабка подключения");
+            textArea.appendText("Ощабка подключения");
+            textArea.appendText("\n");
         }
 
     }
@@ -226,6 +234,7 @@ public class MainWindowController {
     }
 
     public void exit(MouseEvent mouseEvent) throws IOException {
+        timer.cancel();
         javaFXWorker.initializeWindow(javaFXWorker.getWindow(), javaFXWorker.getProgramStarter());
     }
 
@@ -252,7 +261,8 @@ public class MainWindowController {
                     alert.showAndWait();
                 }
             } else {
-                textArea.setText(unknownErrText);
+                textArea.appendText(unknownErrText);
+                textArea.appendText("\n");
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -279,7 +289,8 @@ public class MainWindowController {
             }
             alert.showAndWait();
         } else {
-            textArea.setText(unknownErrText);
+            textArea.appendText(unknownErrText);
+            textArea.appendText("\n");
         }
     }
 
@@ -298,7 +309,8 @@ public class MainWindowController {
             }
             alert.showAndWait();
         } else {
-            textArea.setText(unknownErrText);
+            textArea.appendText(unknownErrText);
+            textArea.appendText("\n");
         }
     }
 
@@ -317,7 +329,9 @@ public class MainWindowController {
             }
             alert.showAndWait();
         } else {
-            textArea.setText(unknownErrText);
+            textArea.appendText(unknownErrText);
+
+            textArea.appendText("\n");
         }
     }
 
@@ -342,11 +356,20 @@ public class MainWindowController {
                 alert.showAndWait();
             }
         } else {
-            textArea.setText(unknownErrText);
+            textArea.appendText(unknownErrText);
+            textArea.appendText("\n");
+
         }
     }
 
     public void executeScripts(MouseEvent mouseEvent) {
+        String[] args = new String[2];
+        args[0] = "execute_script";
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(javaFXWorker.getWindow());
+        args[1] = file.getAbsolutePath();
+        invoker.executeCommand(null, args);
+
     }
 
     public void clearFlats(MouseEvent mouseEvent) {
@@ -370,7 +393,8 @@ public class MainWindowController {
                 alert.showAndWait();
             }
         } else {
-            textArea.setText(unknownErrText);
+          textArea.appendText(unknownErrText);
+          textArea.appendText("\n");
         }
     }
 
@@ -379,7 +403,8 @@ public class MainWindowController {
         args[0] = "remove_by_id";
         Flat selectedFlat = table.getSelectionModel().getSelectedItem();
         if (selectedFlat == null) {
-            textArea.setText("Выбора нет!");
+            textArea.appendText("Выбора нет!");
+            textArea.appendText("\n");
         } else {
             args[1] = String.valueOf(selectedFlat.getId());
             SerializableAnswerToClient answer = invoker.executeCommand(null, args);
@@ -394,7 +419,8 @@ public class MainWindowController {
                     alert.showAndWait();
                 }
             } else {
-                textArea.setText(unknownErrText);
+                textArea.appendText(unknownErrText);
+                textArea.appendText("\n");
             }
         }
 
@@ -406,7 +432,8 @@ public class MainWindowController {
         Flat selectedFlat = table.getSelectionModel().getSelectedItem();
         FlatGetter.setFlat(selectedFlat);
         if (selectedFlat == null) {
-            textArea.setText("Выбора нет!");
+            textArea.appendText("Выбора нет!");
+            textArea.appendText("\n");
         } else {
             args[1] = String.valueOf(selectedFlat.getId());
             SerializableAnswerToClient answer = invoker.executeCommand(null, args);
@@ -422,7 +449,9 @@ public class MainWindowController {
                     alert.showAndWait();
                 }
             } else {
-                textArea.setText(unknownErrText);
+              textArea.appendText(unknownErrText);
+              textArea.appendText("\n");
+
             }
         }
     }
@@ -434,7 +463,8 @@ public class MainWindowController {
         if (answer != null) {
             table.getItems().add(answer.getFlat());
         } else {
-            textArea.setText(unknownErrText);
+            textArea.appendText(unknownErrText);
+            textArea.appendText("\n");
         }
 
     }
@@ -450,7 +480,9 @@ public class MainWindowController {
             alert.setContentText(answer.getAns());
             alert.showAndWait();
         } else {
-            textArea.setText(unknownErrText);
+
+            textArea.appendText(unknownErrText;
+            textArea.appendText("\n");
         }
 
     }
@@ -465,8 +497,11 @@ public class MainWindowController {
             textArea.appendText("");
         }
         if (answer == null) {
-            textArea.setText(unknownErrText);
+            textArea.appendText(answer.getAns());
+        } else {
+            textArea.appendText(unknownErrText);
         }
+        textArea.appendText("\n");
     }
 
     public void printFields(MouseEvent mouseEvent) {
@@ -474,10 +509,12 @@ public class MainWindowController {
         args[0] = "print_field_descending_number_of_rooms";
         SerializableAnswerToClient answer = invoker.executeCommand(null, args);
         if (answer != null) {
-            textArea.setText(answer.getAns());
+            textArea.appendText(answer.getAns());
         } else {
-            textArea.setText(unknownErrText);
+            textArea.appendText(unknownErrText);
+
         }
+        textArea.appendText("\n");
     }
 
     public void openFilters(MouseEvent mouseEvent) {
@@ -505,3 +542,24 @@ public class MainWindowController {
         }
     }
 }
+
+    @FXML
+    public void initialize() {
+        textArea.textProperty().addListener((e) -> {
+            //textArea.deselect();
+            textArea.setScrollTop(Double.MIN_VALUE);
+        });
+        getterOfCollection();
+    }
+
+    private void getterOfCollection() {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                setTextToColumns();
+            }
+        }, 5000, 5000);
+    }
+}
+

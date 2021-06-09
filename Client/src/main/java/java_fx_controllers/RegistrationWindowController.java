@@ -69,7 +69,7 @@ public class RegistrationWindowController {
     /*@FXML @Getter @Setter
     private Hyperlink forgetPwdLink;*/
 
-    public void setText() {
+    public void setText() { //todo
         passwordField.setPromptText("password");
         loginButton.setText("Log in");
         registerButton.setText("Register");

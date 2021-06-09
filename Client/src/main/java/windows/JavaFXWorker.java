@@ -77,11 +77,13 @@ public class JavaFXWorker {
         //init table
         mainWindowController.initALlColumns(); //todo
         mainWindowController.setTextToColumns();
-        mainWindowController.getTextArea().textProperty().addListener((observable, oldValue, newValue) -> mainWindowController.getTextArea().setScrollTop(Double.MAX_VALUE));
+        //mainWindowController.getTextArea().textProperty().addListener((observable, oldValue, newValue) -> mainWindowController.getTextArea().setScrollTop(Double.MAX_VALUE));
         //set title name of Window
         window.setTitle("УЛЬТРАМЕГАВЫХУХОЛЬПОИМЕНИУТКА");//todo
         //init mainWindow
         window.setScene(scene);
         window.centerOnScreen();
     }
+
+
 }
