@@ -261,6 +261,7 @@ public class MainWindowController {
 
     public void exit(MouseEvent mouseEvent) throws IOException {
         timeline.stop();
+        timeline = null;
         javaFXWorker.initializeWindow(javaFXWorker.getWindow(), javaFXWorker.getProgramStarter());
     }
 
@@ -564,7 +565,6 @@ public class MainWindowController {
     }
 
     public void openCoordinatesWindow(MouseEvent mouseEvent) {
-        timeline.stop();
         coordinatesPageWindow = new CoordinatesPageWindow();
         coordinatesPageWindow.display(listOfFlatsForAnim, userName, avatarIcon.getImage());
     }
@@ -585,11 +585,13 @@ public class MainWindowController {
 
             }
         }, 5000, 5000);*/
-        timeline = new Timeline(new KeyFrame(Duration.seconds(5), ev -> {
+        if (timeline == null){
+            timeline = new Timeline(new KeyFrame(Duration.seconds(5), ev -> {
                 setTextToColumns();
-        }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+            }));
+            timeline.setCycleCount(Animation.INDEFINITE);
+            timeline.play();
+        }
     }
 
     public void setAvatarIcon(MouseEvent mouseEvent) {
