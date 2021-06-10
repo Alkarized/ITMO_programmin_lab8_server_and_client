@@ -38,16 +38,16 @@ public class SettingsController{
     @FXML @Getter @Setter
     private MenuButton languageMenuButton;
 
-    @FXML
+    @FXML @Getter
     private MenuItem englishMenuItem;
 
-    @FXML
+    @FXML @Getter
     private MenuItem russianMenuItem;
 
-    @FXML
+    @FXML @Getter
     private MenuItem latvianMenuItem;
 
-    @FXML
+    @FXML @Getter
     private MenuItem portugesMenuItem;
 
     @SneakyThrows

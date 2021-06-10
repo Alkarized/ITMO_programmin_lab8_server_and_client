@@ -11,6 +11,7 @@ import utils.MainLocale;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 public class SettingWindow {
     private Stage stage;
@@ -22,16 +23,47 @@ public class SettingWindow {
         loader.setLocation(getClass().getResource("/Windows/settingsWindow.fxml"));
         BorderPane root = loader.load();
         SettingsController settingsController = loader.getController();
-        settingsController.getLanguageMenuButton().getItems().forEach((item) -> item.setOnAction((e) -> {
-                    try {
-                        stage.setTitle(new String(MainLocale.getResourceBundle().getString("setting_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
-                        settingsController.getLanguageMenuButton().setText(new String(MainLocale.getResourceBundle().getString("setting_language").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
-                        settingsController.getSettings().setText(new String(MainLocale.getResourceBundle().getString("setting_language").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
-                    } catch (UnsupportedEncodingException unsupportedEncodingException) {
-                        unsupportedEncodingException.printStackTrace();
-                    }
-                })
-        );
+        settingsController.getRussianMenuItem().setOnAction((e) -> {
+            MainLocale.setLocale(new Locale("ru", "RU"));
+            try {
+                stage.setTitle(new String(MainLocale.getResourceBundle().getString("setting_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                settingsController.getLanguageMenuButton().setText(new String(MainLocale.getResourceBundle().getString("setting_language").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                settingsController.getSettings().setText(new String(MainLocale.getResourceBundle().getString("setting_language").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+            } catch (UnsupportedEncodingException unsupportedEncodingException) {
+                unsupportedEncodingException.printStackTrace();
+            }
+        });
+        settingsController.getEnglishMenuItem().setOnAction((e) -> {
+            MainLocale.setLocale(new Locale("en", "GB"));
+            try {
+                stage.setTitle(new String(MainLocale.getResourceBundle().getString("setting_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                settingsController.getLanguageMenuButton().setText(new String(MainLocale.getResourceBundle().getString("setting_language").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                settingsController.getSettings().setText(new String(MainLocale.getResourceBundle().getString("setting_language").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+            } catch (UnsupportedEncodingException unsupportedEncodingException) {
+                unsupportedEncodingException.printStackTrace();
+            }
+        });
+        settingsController.getLatvianMenuItem().setOnAction((e) -> {
+            MainLocale.setLocale(new Locale("lv", "LV"));
+            try {
+                stage.setTitle(new String(MainLocale.getResourceBundle().getString("setting_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                settingsController.getLanguageMenuButton().setText(new String(MainLocale.getResourceBundle().getString("setting_language").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                settingsController.getSettings().setText(new String(MainLocale.getResourceBundle().getString("setting_language").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+            } catch (UnsupportedEncodingException unsupportedEncodingException) {
+                unsupportedEncodingException.printStackTrace();
+            }
+        });
+        settingsController.getPortugesMenuItem().setOnAction((e) -> {
+            MainLocale.setLocale(new Locale("pt", "PT"));
+            try {
+                stage.setTitle(new String(MainLocale.getResourceBundle().getString("setting_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                settingsController.getLanguageMenuButton().setText(new String(MainLocale.getResourceBundle().getString("setting_language").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                settingsController.getSettings().setText(new String(MainLocale.getResourceBundle().getString("setting_language").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+            } catch (UnsupportedEncodingException unsupportedEncodingException) {
+                unsupportedEncodingException.printStackTrace();
+            }
+        });
+
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle(new String(MainLocale.getResourceBundle().getString("setting_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
         stage.setScene(new Scene(root, 450, 215));
