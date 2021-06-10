@@ -15,7 +15,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import utils.HashFields;
+import utils.MainLocale;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 
@@ -33,7 +36,7 @@ public class FiltrationWindow {
     @SneakyThrows
     public void display() {
         Stage window = new Stage();
-        window.setTitle("filter"); //todo
+        window.setTitle(new String(MainLocale.getResourceBundle().getString("filter_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")); //todo
         window.initModality(Modality.APPLICATION_MODAL);
 
         FXMLLoader loader = new FXMLLoader();
@@ -53,9 +56,14 @@ public class FiltrationWindow {
                 isClickedClear = true;
             }
         });
+        setText();
         filtrationController.getUseFilter().setOnMouseClicked((event -> {
             if (filtrationController.getChoiceBox().getValue() == null) {
-                filtrationController.getErrorText().setText("Пожалуйста, выберите поле");//todo
+                try {
+                    filtrationController.getErrorText().setText(new String(MainLocale.getResourceBundle().getString("filter_err_1").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 Shake shake = new Shake(filtrationController.getErrorText());
                 shake.shaking();
             } else {
@@ -87,5 +95,15 @@ public class FiltrationWindow {
     public FiltrationWindow(TableView<Flat> tableView, HashFields hashFields) {
         this.tableView = tableView;
         this.hashFields = hashFields;
+    }
+
+    @SneakyThrows
+    public void setText(){
+        filtrationController.getValue().setText(new String(MainLocale.getResourceBundle().getString("filter_value").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        filtrationController.getRadioContains().setText(new String(MainLocale.getResourceBundle().getString("filter_cont").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        filtrationController.getRadioNotContains().setText(new String(MainLocale.getResourceBundle().getString("filter_not_cont").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        filtrationController.getClearFilter().setText(new String(MainLocale.getResourceBundle().getString("filter_clear_button").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        filtrationController.getUseFilter().setText(new String(MainLocale.getResourceBundle().getString("filter_use_button").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        filtrationController.getTextFieldo().setText(new String(MainLocale.getResourceBundle().getString("filter_text").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
     }
 }

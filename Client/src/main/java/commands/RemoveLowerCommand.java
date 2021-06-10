@@ -5,10 +5,12 @@ import fields.Flat;
 import message.MessageColor;
 import message.Messages;
 import utils.FlatMaker;
+import utils.MainLocale;
 import utils.SerializableAnswerToClient;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class RemoveLowerCommand extends Command implements Serializable {
@@ -29,7 +31,10 @@ public class RemoveLowerCommand extends Command implements Serializable {
 
         try {
             if (args.length == 1) {
-                Flat flat = new FlatMaker().makeFlat(scanner, "удаление)", "удолясь", null);
+                Flat flat = new FlatMaker().makeFlat(scanner,
+                        new String(MainLocale.getResourceBundle().getString("flat_remove_topic").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"),
+                        new String(MainLocale.getResourceBundle().getString("flat_remove_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                        , null);
                 if (flat != null)
                     return receiver.removeLowerElements(flat);
                 else

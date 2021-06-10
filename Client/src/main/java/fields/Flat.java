@@ -1,7 +1,11 @@
 package fields;
 
 
+import lombok.SneakyThrows;
+import utils.MainLocale;
+
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -42,6 +46,10 @@ public class Flat implements Comparable<Flat>, Serializable {
 
     public String getCreationDate() {
         return new SimpleDateFormat("HH:mm:ss.SSS dd-MM-yyyy").format(creationDate);
+    }
+
+    public Date getCreationDateClear(){
+        return creationDate;
     }
 
     public Long getArea() {
@@ -155,20 +163,33 @@ public class Flat implements Comparable<Flat>, Serializable {
     /**
      * Выводит информацию в строков виде об объекте
      */
+    @SneakyThrows
     public String printInfoAboutElement() {
         return "id - " + id + "\n" +
-                "Имя - " + name + "\n" +
-                "Координаты x и y - " + coordinates.getX() + ", " + coordinates.getY() + "\n" +
-                "Дата создания - " + getCreationDate() + "\n" +
-                "Площадь - " + area + "\n" +
-                "Кол-во комнат - " + numberOfRooms + "\n" +
-                "Отделка - " + furnish + "\n" +
-                "Вид - " + view + "\n" +
-                "Транспорт - " + transport + "\n" +
-                "Имя дома - " + house.getName() + "\n" +
-                "Год дома - " + house.getYear() + "\n" +
-                "Кол-во квартир на этаже - " + house.getNumberOfFlatsOnFloor() + "\n" +
-                "Имя пользователя - " + user.getUsername();
+                new String(MainLocale.getResourceBundle().getString("flat_name").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                + " - " + name + "\n" +
+                new String(MainLocale.getResourceBundle().getString("flat_coords").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                + " - " + coordinates.getX() + ", " + coordinates.getY() + "\n" +
+                new String(MainLocale.getResourceBundle().getString("flat_creation").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                + " - " + getCreationDate() + "\n" +
+                new String(MainLocale.getResourceBundle().getString("flat_area").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                + " - " + area + "\n" +
+                new String(MainLocale.getResourceBundle().getString("flat_number_of_rooms").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                + " - " + numberOfRooms + "\n" +
+                new String(MainLocale.getResourceBundle().getString("flat_furnish").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                + " - " + furnish + "\n" +
+                new String(MainLocale.getResourceBundle().getString("flat_view").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                + " - " + view + "\n" +
+                new String(MainLocale.getResourceBundle().getString("flat_transport").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                + " - " + transport + "\n" +
+                new String(MainLocale.getResourceBundle().getString("flat_home_name").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                + " - " + house.getName() + "\n" +
+                new String(MainLocale.getResourceBundle().getString("flat_home_year").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                + " - " + house.getYear() + "\n" +
+                new String(MainLocale.getResourceBundle().getString("flat_home_number").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                + " - " + house.getNumberOfFlatsOnFloor() + "\n" +
+                new String(MainLocale.getResourceBundle().getString("flat_username").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                + " - " + user.getUsername();
     }
 
     /**

@@ -13,11 +13,18 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import utils.MainLocale;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
-public class SettingsController extends Application {
+public class SettingsController{
 
     @FXML
     private BorderPane logInBorderPane;
@@ -25,26 +32,30 @@ public class SettingsController extends Application {
     @FXML
     private AnchorPane settingsPane;
 
-    @FXML
+    @FXML @Getter @Setter
     private Label settings;
 
-    @FXML
+    @FXML @Getter @Setter
     private MenuButton languageMenuButton;
 
-    @FXML
+    @FXML @Getter
     private MenuItem englishMenuItem;
 
-    @FXML
+    @FXML @Getter
     private MenuItem russianMenuItem;
 
-    @FXML
+    @FXML @Getter
     private MenuItem latvianMenuItem;
 
-    @FXML
+    @FXML @Getter
     private MenuItem portugesMenuItem;
 
+    @SneakyThrows
     @FXML
     void initialize() {
+        languageMenuButton.setText(new String(MainLocale.getResourceBundle().getString("setting_language").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        settings.setText(new String(MainLocale.getResourceBundle().getString("setting_language").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+
         ImageView langGlobe = this.getIcon("/Pics/flags/globe.png");
         ImageView langEn = this.getIcon("/Pics/flags/united_kingdom_round_icon_256.png");
         ImageView langRu = this.getIcon("/Pics/flags/russia_round_icon_256.png");
@@ -68,22 +79,7 @@ public class SettingsController extends Application {
         latvianMenuItem.setGraphic(langLa);
         portugesMenuItem.setGraphic(langPo);
 
-    }
 
-    @Override
-    public void start(Stage stage) {
-        BorderPane root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/Windows/settingsWindow.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Settings");
-        assert root != null;
-        stage.setScene(new Scene(root, 450, 215));
-        stage.setResizable(false);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
     }
 
     private ImageView getIcon(String resourcePath) {
