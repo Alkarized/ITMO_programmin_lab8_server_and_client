@@ -2,33 +2,43 @@ package java_fx_controllers;
 
 import client.Invoker;
 import fields.*;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import utils.FlatGetter;
 import utils.HashFields;
+import utils.MainLocale;
 import utils.SerializableAnswerToClient;
-import windows.AlertQuestionOfNumberOfRooms;
-import windows.FiltrationWindow;
-import windows.JavaFXWorker;
-
-import java.io.File;
-import java.io.IOException;
+import windows.*;
+import java.io.*;
 import java.util.Date;
 import java.util.PriorityQueue;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 public class MainWindowController {
@@ -77,19 +87,30 @@ public class MainWindowController {
 
     private ObservableList<Flat> listOfFlatsForAnim;
 
-    private final String unknownErrText = "Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф";
-    private Timer timer;
+    private String unknownErrText;
+
+    {
+        try {
+            unknownErrText = new String(MainLocale.getResourceBundle().getString("main_err1").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Timeline timeline;
+
+    private CoordinatesPageWindow coordinatesPageWindow;
 
     public void initALlColumns() {
         hashFields = new HashFields();
         TableColumn<Flat, Long> idColumn = new TableColumn<>("id");
         idColumn.setPrefWidth(120);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<Flat, Date> dateColumn = new TableColumn<>("creation date");
+        TableColumn<Flat, SimpleDateFormat> dateColumn = new TableColumn<>("creation date");
         dateColumn.setPrefWidth(120);
         dateColumn.setCellValueFactory(Flat -> {
             SimpleObjectProperty property = new SimpleObjectProperty();
-            property.setValue(Flat.getValue().getCreationDate());
+            property.setValue(new SimpleDateFormat("HH:mm:ss.SSS dd-MM-yyyy", Locale.getDefault()).format(Flat.getValue().getCreationDateClear()));
             return property;
         });
         TableColumn<Flat, String> nameColumn = new TableColumn<>("name");
@@ -205,16 +226,21 @@ public class MainWindowController {
         textArea.appendText("");
     }
 
+    @SneakyThrows
     public void setTextToColumns() {
         String[] args = new String[1];
         args[0] = "getCollection";
         SerializableAnswerToClient answer = invoker.executeCommand(null, args);
         if (answer != null) {
             table.setItems(getList(answer.getQueue()));
-            listOfFlatsForAnim.retainAll(getList(answer.getQueue()));
-            answer.getQueue().stream().filter((e) -> !listOfFlatsForAnim.contains(e)).forEach((e) -> listOfFlatsForAnim.add(e));
+            //listOfFlatsForAnim.retainAll(getList(answer.getQueue()));
+            listOfFlatsForAnim.setAll(answer.getQueue());
+            if (coordinatesPageWindow != null){
+                coordinatesPageWindow.draw(listOfFlatsForAnim);
+            }
+            //answer.getQueue().stream().filter((e) -> !listOfFlatsForAnim.contains(e)).forEach((e) -> listOfFlatsForAnim.add(e));
         } else {
-            textArea.appendText("Ощабка подключения");
+            textArea.appendText(new String(MainLocale.getResourceBundle().getString("conn_error").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
             textArea.appendText("\n");
         }
 
@@ -234,30 +260,31 @@ public class MainWindowController {
     }
 
     public void exit(MouseEvent mouseEvent) throws IOException {
-        timer.cancel();
+        timeline.stop();
         javaFXWorker.initializeWindow(javaFXWorker.getWindow(), javaFXWorker.getProgramStarter());
     }
 
+    @SneakyThrows
     public void countLess(MouseEvent mouseEvent) {
         String[] args = new String[2];
         args[0] = "count_less_than_number_of_rooms";
         AlertQuestionOfNumberOfRooms alertQuestionOfNumberOfRooms = new AlertQuestionOfNumberOfRooms();
-        Integer number = alertQuestionOfNumberOfRooms.display("Получение значения"); //todo
+        Integer number = alertQuestionOfNumberOfRooms.display(new String(MainLocale.getResourceBundle().getString("count_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")); //todo
         if (number != null) {
             args[1] = String.valueOf(number);
             SerializableAnswerToClient answer = invoker.executeCommand(null, args);
             if (answer != null) {
                 if (!answer.getAns().equals("-1")) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Подсчит");//todo
-                    alert.setHeaderText("Подсчит элементов, где поле меньше заданного");
-                    alert.setContentText("Кол-во таких элемоентов: " + answer.getAns());
+                    alert.setTitle(new String(MainLocale.getResourceBundle().getString("count_title2").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+                    alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("count_header").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                    alert.setContentText(new String(MainLocale.getResourceBundle().getString("count_cont").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + answer.getAns());
                     alert.showAndWait();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Ошябка");//todo
-                    alert.setHeaderText("Ощябка кол-ва элементов");
-                    alert.setContentText("В коллекции нет элементов");
+                    alert.setTitle(new String(MainLocale.getResourceBundle().getString("update_error").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+                    alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("count_header_error").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                    alert.setContentText(new String(MainLocale.getResourceBundle().getString("count_cont_error").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
                     alert.showAndWait();
                 }
             } else {
@@ -266,26 +293,27 @@ public class MainWindowController {
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ошябка");//todo
-            alert.setHeaderText("Введение поля для сравнения");
-            alert.setContentText("введено не число");
+            alert.setTitle(new String(MainLocale.getResourceBundle().getString("update_error").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+            alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("cout_comp").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+            alert.setContentText(new String(MainLocale.getResourceBundle().getString("cout_comp2").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
             alert.showAndWait();
         }
 
     }
 
+    @SneakyThrows
     public void minByCoords(MouseEvent mouseEvent) {
         String[] args = new String[1];
         args[0] = "min_by_coordinates";
         SerializableAnswerToClient answer = invoker.executeCommand(null, args);
         if (answer != null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Элемент коллекции: ");//todo
-            alert.setHeaderText("Вот вам и элемент c минимальными координатами)");
+            alert.setTitle(new String(MainLocale.getResourceBundle().getString("elem_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+            alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("min_header").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
             if (answer.getAns() != null) {
                 alert.setContentText(answer.getAns());
             } else {
-                alert.setContentText("А элементов нет, какой вам элемент!?");
+                alert.setContentText(new String(MainLocale.getResourceBundle().getString("min_out").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
             }
             alert.showAndWait();
         } else {
@@ -294,14 +322,15 @@ public class MainWindowController {
         }
     }
 
+    @SneakyThrows
     public void removeLowerFlat(MouseEvent mouseEvent) {
         String[] args = new String[1];
         args[0] = "remove_lower";
         SerializableAnswerToClient answer = invoker.executeCommand(null, args);
         if (answer != null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Элемент коллекции: ");//todo
-            alert.setHeaderText("Удалить или не удалить вот в чем ворос?");
+            alert.setTitle(new String(MainLocale.getResourceBundle().getString("elem_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+            alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("remlo_header").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
             alert.setContentText(answer.getAns());
             if (answer.getQueue() != null) {
                 table.getItems().clear();
@@ -314,18 +343,19 @@ public class MainWindowController {
         }
     }
 
+    @SneakyThrows
     public void getHeadFlat(MouseEvent mouseEvent) {
         String[] args = new String[1];
         args[0] = "head";
         SerializableAnswerToClient answer = invoker.executeCommand(null, args);
         if (answer != null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Элемент коллекции: ");//todo
-            alert.setHeaderText("Вот вам и элемент)");
+            alert.setTitle(new String(MainLocale.getResourceBundle().getString("elem_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+            alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("head_header").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
             if (answer.getAns() != null) {
                 alert.setContentText(answer.getAns());
             } else {
-                alert.setContentText("А элементов нет, какой вам элемент!?");
+                alert.setContentText(new String(MainLocale.getResourceBundle().getString("head_error").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
             }
             alert.showAndWait();
         } else {
@@ -335,6 +365,7 @@ public class MainWindowController {
         }
     }
 
+    @SneakyThrows
     public void removeFirstFlat(MouseEvent mouseEvent) {
         String[] args = new String[1];
         args[0] = "remove_first";
@@ -344,15 +375,15 @@ public class MainWindowController {
                 Flat flatDelete = table.getItems().stream().filter((e) -> e.getUser().getUsername().equals(answer.getFlat().getUser().getUsername())).findFirst().get();
                 table.getItems().remove(flatDelete);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Удоление эдема");//todo
-                alert.setHeaderText("Удаление превого объекта коллекции");
-                alert.setContentText("Удаление прошло успешно");
+                alert.setTitle(new String(MainLocale.getResourceBundle().getString("remfi_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+                alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("remfi_header").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                alert.setContentText(new String(MainLocale.getResourceBundle().getString("remfi_content").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
                 alert.showAndWait();
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Очистка");//todo
-                alert.setHeaderText("Ощяьбка удаления первого объекта пользователя");
-                alert.setContentText("объект не подвластен вам");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(new String(MainLocale.getResourceBundle().getString("remfi_error_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+                alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("remfi_error_header").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                alert.setContentText(new String(MainLocale.getResourceBundle().getString("remfi_error_content").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
                 alert.showAndWait();
             }
         } else {
@@ -372,6 +403,7 @@ public class MainWindowController {
 
     }
 
+    @SneakyThrows
     public void clearFlats(MouseEvent mouseEvent) {
         String[] args = new String[1];
         args[0] = "clear";
@@ -381,15 +413,17 @@ public class MainWindowController {
             table.getItems().removeAll(list.filtered((e) -> e.getUser().getUsername().equals(userName)));
             if (Integer.parseInt(answer.getAns()) != 0) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Очистка");//todo
-                alert.setHeaderText("Удаление объектов пользователя");
-                alert.setContentText("Удаление прошло успешно: было удалено - " + answer.getAns() + " элементов коллекции");
+                alert.setTitle(new String(MainLocale.getResourceBundle().getString("remfi_error_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+                alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("clear_header").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                alert.setContentText(new String(MainLocale.getResourceBundle().getString("clear_content1").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                        + answer.getAns() +
+                        new String(MainLocale.getResourceBundle().getString("clear_content2").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
                 alert.showAndWait();
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Очистка");//todo
-                alert.setHeaderText("Ощяьбка удаления объектов пользователя");
-                alert.setContentText("Нет объектов для удаленияяяяя");
+                alert.setTitle(new String(MainLocale.getResourceBundle().getString("remfi_error_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+                alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("clear_error_header").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                alert.setContentText(new String(MainLocale.getResourceBundle().getString("clear_error_content").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
                 alert.showAndWait();
             }
         } else {
@@ -398,12 +432,13 @@ public class MainWindowController {
         }
     }
 
+    @SneakyThrows
     public void removeFlat(MouseEvent mouseEvent) {
         String[] args = new String[2];
         args[0] = "remove_by_id";
         Flat selectedFlat = table.getSelectionModel().getSelectedItem();
         if (selectedFlat == null) {
-            textArea.appendText("Выбора нет!");
+            textArea.appendText(new String(MainLocale.getResourceBundle().getString("alert_no_choice").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
             textArea.appendText("\n");
         } else {
             args[1] = String.valueOf(selectedFlat.getId());
@@ -413,9 +448,9 @@ public class MainWindowController {
                     table.getItems().remove(selectedFlat);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Ошябка");//todo
-                    alert.setHeaderText("Ощябка доступа пользователя");
-                    alert.setContentText("Вы не могете удалять этот обект");
+                    alert.setTitle(new String(MainLocale.getResourceBundle().getString("update_error").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+                    alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("rem_error_header").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                    alert.setContentText(new String(MainLocale.getResourceBundle().getString("rem_error_content").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
                     alert.showAndWait();
                 }
             } else {
@@ -426,13 +461,14 @@ public class MainWindowController {
 
     }
 
+    @SneakyThrows
     public void updateFlat(MouseEvent mouseEvent) {
         String[] args = new String[2];
         args[0] = "update";
         Flat selectedFlat = table.getSelectionModel().getSelectedItem();
         FlatGetter.setFlat(selectedFlat);
         if (selectedFlat == null) {
-            textArea.appendText("Выбора нет!");
+            textArea.appendText(new String(MainLocale.getResourceBundle().getString("alert_no_choice").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
             textArea.appendText("\n");
         } else {
             args[1] = String.valueOf(selectedFlat.getId());
@@ -443,9 +479,9 @@ public class MainWindowController {
                     table.getItems().add(answer.getFlat());
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Ошябка");//todo
-                    alert.setHeaderText("Ощябка доступа пользователя");
-                    alert.setContentText("Вы не могете обновлять этот обект");
+                    alert.setTitle(new String(MainLocale.getResourceBundle().getString("update_error").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+                    alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("update_header_error").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                    alert.setContentText(new String(MainLocale.getResourceBundle().getString("update_context_error").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
                     alert.showAndWait();
                 }
             } else {
@@ -469,19 +505,20 @@ public class MainWindowController {
 
     }
 
+    @SneakyThrows
     public void getInfo(MouseEvent mouseEvent) {
         String[] args = new String[1];
         args[0] = "info";
         SerializableAnswerToClient answer = invoker.executeCommand(null, args);
         if (answer != null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Информация");//todo
-            alert.setHeaderText("Инфа о коллекции");
+            alert.setTitle(new String(MainLocale.getResourceBundle().getString("info_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
+            alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("info_text").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
             alert.setContentText(answer.getAns());
             alert.showAndWait();
         } else {
 
-            textArea.appendText(unknownErrText;
+            textArea.appendText(unknownErrText);
             textArea.appendText("\n");
         }
 
@@ -492,15 +529,12 @@ public class MainWindowController {
         args[0] = "help";
         SerializableAnswerToClient answer = invoker.executeCommand(null, args);
         if (answer != null) {
-            textArea.setText(answer.getAns());
-            textArea.setScrollTop(Double.MIN_VALUE);
-            textArea.appendText("");
-        }
-        if (answer == null) {
             textArea.appendText(answer.getAns());
-        } else {
+            textArea.setScrollTop(Double.MAX_VALUE);
+        }else {
             textArea.appendText(unknownErrText);
         }
+
         textArea.appendText("\n");
     }
 
@@ -522,44 +556,61 @@ public class MainWindowController {
         window.display();
     }
 
+    @SneakyThrows
     public void openSettingsWindow(MouseEvent mouseEvent) {
-        SettingsController settingsPage = new SettingsController();
-        settingsPage.start(new Stage());
+        SettingWindow settingWindow = new SettingWindow();
+        settingWindow.display();
+        javaFXWorker.setMainWindow();
     }
 
     public void openCoordinatesWindow(MouseEvent mouseEvent) {
-        CoordinatesPageController coordinatesPageStage = new CoordinatesPageController(listOfFlatsForAnim);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        coordinatesPageStage.start(stage);
+        coordinatesPageWindow = new CoordinatesPageWindow();
+        coordinatesPageWindow.display(listOfFlatsForAnim, userName, avatarIcon.getImage());
     }
-
-    public void start() {
-        try {
-            javaFXWorker.setMainWindow();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
 
     @FXML
     public void initialize() {
         textArea.textProperty().addListener((e) -> {
-            //textArea.deselect();
             textArea.setScrollTop(Double.MIN_VALUE);
         });
         getterOfCollection();
     }
 
     private void getterOfCollection() {
-        timer = new Timer();
+        /*timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                setTextToColumns();
+
             }
-        }, 5000, 5000);
+        }, 5000, 5000);*/
+        timeline = new Timeline(new KeyFrame(Duration.seconds(5), ev -> {
+                setTextToColumns();
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    public void setAvatarIcon(MouseEvent mouseEvent) {
+        FileChooser chooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.png", "*.bmp");
+        chooser.getExtensionFilters().add(extFilter);
+        Stage stage1 = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        File file = chooser.showOpenDialog(stage1);
+        ImageView logoImage = this.getImage(file);
+        if (file != null) {
+            avatarIcon.setImage(logoImage.getImage());
+        }
+    }
+
+    private ImageView getImage(File file) {
+        InputStream input = null;
+        Image image = null;
+        try {
+            input = new FileInputStream(file);
+            image = new Image(input);
+        } catch (FileNotFoundException | NullPointerException e) {}
+        return new ImageView(image);
     }
 }
 

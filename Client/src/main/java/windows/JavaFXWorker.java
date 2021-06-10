@@ -12,10 +12,12 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
+import utils.MainLocale;
 import utils.ProgramStarter;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class JavaFXWorker {
     @Getter
@@ -54,7 +56,7 @@ public class JavaFXWorker {
         window.setResizable(false);
         window.getIcons().add(new Image(new FileInputStream("Client/src/main/resources/Pics/vt2021.png")));
         //set Title name of Window
-        window.setTitle("Авторизация"); //todo
+        window.setTitle(new String(MainLocale.getResourceBundle().getString("reg_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")); //todo
 
         //init all stuff
         window.show();
@@ -79,7 +81,7 @@ public class JavaFXWorker {
         mainWindowController.setTextToColumns();
         //mainWindowController.getTextArea().textProperty().addListener((observable, oldValue, newValue) -> mainWindowController.getTextArea().setScrollTop(Double.MAX_VALUE));
         //set title name of Window
-        window.setTitle("УЛЬТРАМЕГАВЫХУХОЛЬПОИМЕНИУТКА");//todo
+        window.setTitle(new String(MainLocale.getResourceBundle().getString("main_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));//todo
         //init mainWindow
         window.setScene(scene);
         window.centerOnScreen();

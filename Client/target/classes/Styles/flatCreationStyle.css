@@ -1,0 +1,17 @@
+.vbox .hbox .text{
+    -fx-pref-width: 300;
+    -fx-fill-width: 30px;
+    -fx-font-size: 15;
+}
+
+.text-field{
+    -fx-pref-width: 100;
+}
+
+.hbox{
+    -fx-pref-width: 300;
+}
+
+#topic{
+    -fx-font-size: 20;
+}

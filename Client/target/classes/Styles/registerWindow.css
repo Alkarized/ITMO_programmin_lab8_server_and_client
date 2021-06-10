@@ -1,0 +1,50 @@
+.root {
+    -fx-background-color: #333333
+}
+
+.button {
+    -fx-pref-width: 110;
+    -fx-pref-height: 20;
+    -fx-border-width: 1;
+    -fx-border-color: red;
+    -fx-font-weight: bold;
+    -fx-font-size: 13;
+    -fx-background-color: #ff0024;
+    -fx-text-fill: #cbf5f5;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+.button:focused {
+    -fx-border-color: #cbf5f5;
+    -fx-border-radius: 5;
+}
+
+#welcomeText {
+    -fx-fill: red;
+    -fx-font-weight: bold;
+    -fx-stroke-width: 0.5;
+    -fx-stroke: white;
+}
+
+#errorText {
+    -fx-fill: red;
+}
+
+#registerOrAuthText {
+    -fx-fill: white;
+}
+
+#forgetPwdLink {
+    -fx-text-fill: #f64444;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+    -fx-underline: true;
+}
+
+#forgetPwdLink:focused {
+    -fx-border-width: 1;
+    -fx-border-color: white;
+    -fx-border-style: solid;
+}
+

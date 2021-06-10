@@ -7,8 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import utils.MainLocale;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class FlatCreationWindow {
 
@@ -25,7 +27,8 @@ public class FlatCreationWindow {
         flatCreationController = loader.getController();
 
         flatCreationController.getTopic().setText(topic); //todo
-        flatCreationController.getSendButton().setText("seeeend nudes");
+        flatCreationController.getSendButton().setText(new String(MainLocale.getResourceBundle().getString("flat_send").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+        );
         flatCreationController.setStage(window);
 
         if (flat != null){

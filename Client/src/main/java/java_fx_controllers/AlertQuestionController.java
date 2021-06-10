@@ -8,6 +8,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
+import utils.MainLocale;
+
+import java.nio.charset.StandardCharsets;
 
 public class AlertQuestionController {
     @FXML
@@ -29,8 +33,9 @@ public class AlertQuestionController {
         stage.close();
     }
 
+    @SneakyThrows
     public void localize(){
-        textQuest.setText("Введите значение для сравнения: ");
-        ansButton.setText("Подсчитать кол-во");
+        textQuest.setText(new String(MainLocale.getResourceBundle().getString("quest_text").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        ansButton.setText(new String(MainLocale.getResourceBundle().getString("quest_ans").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
     }
 }
