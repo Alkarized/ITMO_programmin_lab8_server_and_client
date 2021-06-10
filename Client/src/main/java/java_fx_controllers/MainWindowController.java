@@ -564,6 +564,7 @@ public class MainWindowController {
     }
 
     public void openCoordinatesWindow(MouseEvent mouseEvent) {
+        timeline.close();
         coordinatesPageWindow = new CoordinatesPageWindow();
         coordinatesPageWindow.display(listOfFlatsForAnim, userName, avatarIcon.getImage());
     }
