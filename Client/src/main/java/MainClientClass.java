@@ -9,6 +9,7 @@ import windows.RegisterAlertBoxController;
 
 import java.awt.*;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -25,6 +26,10 @@ public class MainClientClass extends Application {
         ProgramStarter programStarter = new ProgramStarter("localhost", 7879);
         JavaFXWorker javaFXWorker = new JavaFXWorker();
         //Init LogInOrRegisterWindow
+        MainLocale.setLocale(new Locale("ru","RU"));
+        System.out.println();
+
+
         javaFXWorker.initializeWindow(primaryStage, programStarter);
         //System.out.println(new FlatCreationWindow().displayBox("test", "sad"));
         //MainLocale.setLocale(new Locale("ru","RU"));

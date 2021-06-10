@@ -41,7 +41,7 @@
             <AnchorPane prefHeight="134.0" prefWidth="232.0" BorderPane.alignment="CENTER" />
          </right>
          <center>
-            <Label fx:id="coordinatesText" text="Coordinates" textFill="RED" BorderPane.alignment="CENTER">
+            <Label fx:id="coordinatesText" textFill="RED" BorderPane.alignment="CENTER">
                <font>
                   <Font size="80.0" />
                </font>

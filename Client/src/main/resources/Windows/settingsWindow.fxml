@@ -14,7 +14,7 @@
                       <Font size="48.0" />
                   </font>
               </Label>
-            <MenuButton fx:id="languageMenuButton" layoutX="114.0" layoutY="128.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="210.0" text="Language">
+            <MenuButton fx:id="languageMenuButton" layoutX="114.0" layoutY="128.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="210.0">
               <items>
                 <MenuItem id="englishMenuItem" fx:id="englishMenuItem" mnemonicParsing="false" text="English" />
                 <MenuItem id="russianMenuItem" fx:id="russianMenuItem" mnemonicParsing="false" text="Русский" />

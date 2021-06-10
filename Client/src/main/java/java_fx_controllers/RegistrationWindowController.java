@@ -13,10 +13,14 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import utils.AuthRegisterUser;
+import utils.MainLocale;
 import windows.JavaFXWorker;
+import windows.SettingWindow;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class RegistrationWindowController {
 
@@ -66,16 +70,15 @@ public class RegistrationWindowController {
     @Setter
     private Text registerOrAuthText;
 
-    /*@FXML @Getter @Setter
-    private Hyperlink forgetPwdLink;*/
-
+    @SneakyThrows
     public void setText() { //todo
-        passwordField.setPromptText("password");
-        loginButton.setText("Log in");
-        registerButton.setText("Register");
-        welcomeText.setText("WelCUMe!");
-        registerOrAuthText.setText("Don't afraid, log in!");
-        loginField.setPromptText("login");
+        passwordField.setPromptText(new String(MainLocale.getResourceBundle().getString("reg_reg_field").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        loginButton.setText(new String(MainLocale.getResourceBundle().getString("reg_log_button").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        registerButton.setText(new String(MainLocale.getResourceBundle().getString("reg_reg_button").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        welcomeText.setText(new String(MainLocale.getResourceBundle().getString("reg_welcome_big").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        registerOrAuthText.setText(new String(MainLocale.getResourceBundle().getString("reg_welcome_lower").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        loginField.setPromptText(new String(MainLocale.getResourceBundle().getString("reg_log_field").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+        errorText.setText("");
     }
 
     public void tryLogin(MouseEvent mouseEvent) throws IOException {
@@ -83,7 +86,7 @@ public class RegistrationWindowController {
             Shake loginFieldShake = new Shake(loginField);
             Shake passwordFieldShake = new Shake(passwordField);
             Flicker textFlicker = new Flicker(errorText);
-            errorText.setText("Не введен логин или пароль");
+            errorText.setText(new String(MainLocale.getResourceBundle().getString("reg_err1").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
             textFlicker.flicking();
             loginFieldShake.shaking();
             passwordFieldShake.shaking();
@@ -104,7 +107,7 @@ public class RegistrationWindowController {
             Shake loginFieldShake = new Shake(loginField);
             Shake passwordFieldShake = new Shake(passwordField);
             Flicker textFlicker = new Flicker(errorText);
-            errorText.setText("Не введен логин или пароль");
+            errorText.setText(new String(MainLocale.getResourceBundle().getString("reg_err1").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
             textFlicker.flicking();
             loginFieldShake.shaking();
             passwordFieldShake.shaking();
@@ -124,8 +127,11 @@ public class RegistrationWindowController {
         }
     }
 
+    @SneakyThrows
     public void openSettingsWindow(MouseEvent mouseEvent) {
-        SettingsController settingsPage = new SettingsController();
-        settingsPage.start(new Stage());
+        SettingWindow settingWindow = new SettingWindow();
+        settingWindow.display();
+        setText();
+        javaFXWorker.getWindow().setTitle(new String(MainLocale.getResourceBundle().getString("reg_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
     }
 }

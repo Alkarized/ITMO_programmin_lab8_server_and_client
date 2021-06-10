@@ -11,6 +11,10 @@ import windows.FiltrationWindow;
 public class FiltrationController {
 
     @FXML @Getter @Setter
+    private Text value;
+    @FXML @Getter @Setter
+    private Text textFieldo;
+    @FXML @Getter @Setter
     private Text errorText;
     @FXML @Setter @Getter
     private Button useFilter;

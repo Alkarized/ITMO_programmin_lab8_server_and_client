@@ -6,10 +6,12 @@ import message.MessageColor;
 import message.Messages;
 import utils.FlatGetter;
 import utils.FlatMaker;
+import utils.MainLocale;
 import utils.SerializableAnswerToClient;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class UpdateByIdCommand extends Command implements Serializable {
@@ -29,7 +31,10 @@ public class UpdateByIdCommand extends Command implements Serializable {
     public SerializableAnswerToClient execute(String[] args, Scanner scanner) {
         try {
             if (args.length == 2) {
-                Flat flat = new FlatMaker().makeFlat(scanner, "Упадете","обновить данные", FlatGetter.getFlat());
+                Flat flat = new FlatMaker().makeFlat(scanner,
+                        new String(MainLocale.getResourceBundle().getString("flat_update_topic").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"),
+                        new String(MainLocale.getResourceBundle().getString("flat_update_title").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
+                        , FlatGetter.getFlat());
                 if (flat != null) {
                     Long.valueOf(args[1]);
                     return receiver.updateElementById(flat, args);

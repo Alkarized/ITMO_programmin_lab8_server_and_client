@@ -7,10 +7,12 @@ import commands.RegistrationCommand;
 import commands.serializable_commands.SerializableCommandStandard;
 import fields.User;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import message.MessageColor;
 import message.Messages;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class AuthRegisterUser {
     @Getter
@@ -18,6 +20,7 @@ public class AuthRegisterUser {
     @Getter
     private Receiver receiver;
 
+    @SneakyThrows
     public String registerNewUser(User user) {
         if (connection.tryConnect()) {
             try {
@@ -28,20 +31,21 @@ public class AuthRegisterUser {
                         receiver.setUser(user);
                         return "";
                     } else {
-                        return "Логин уже используется, попробуйте новый";
+                        return new String(MainLocale.getResourceBundle().getString("reg_err2_login").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251");
                     }
                 } else {
-                    return "сервер недоступен! Попробуйте позже";
+                    return new String(MainLocale.getResourceBundle().getString("reg_err3").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251");
                 }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
-                return "уппс, ашибка!";
+                return new String(MainLocale.getResourceBundle().getString("reg_err4").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251");
             }
         } else {
-            return "Ну нефего бубнить, сервер недоступен!";
+            return new String(MainLocale.getResourceBundle().getString("reg_err5").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251");
         }
     }
 
+    @SneakyThrows
     public String authorizeUser(User user) {
         if (connection.tryConnect()) {
             try {
@@ -52,17 +56,17 @@ public class AuthRegisterUser {
                         receiver.setUser(user);
                         return "";
                     } else {
-                        return "Не удалось войти в аккаунт, попробуйте занова";
+                        return new String(MainLocale.getResourceBundle().getString("reg_err2_reg").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251");
                     }
                 } else {
-                    return "сервер недоступен! Попробуйте позже";
+                    return new String(MainLocale.getResourceBundle().getString("reg_err3").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251");
                 }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
-                return "уппс, ашибка!";
+                return new String(MainLocale.getResourceBundle().getString("reg_err4").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251");
             }
         } else {
-            return "Ну нефего бубнить, сервер недоступен!";
+            return new String(MainLocale.getResourceBundle().getString("reg_err5").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251");
         }
     }
 

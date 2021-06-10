@@ -17,7 +17,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.SneakyThrows;
+import utils.MainLocale;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class CoordinatesPageWindow {
@@ -38,7 +41,7 @@ public class CoordinatesPageWindow {
         Parent root = loader.load();
 
         coordinatesPageController = loader.getController();
-
+        setText();
         draw(list);
 
         Scene scene = new Scene(root, 1600, 950);
@@ -48,6 +51,11 @@ public class CoordinatesPageWindow {
         window.showAndWait();
         window.centerOnScreen();
 
+    }
+
+    @SneakyThrows
+    public void setText(){
+        coordinatesPageController.getCoordinatesText().setText(new String(MainLocale.getResourceBundle().getString("coords_text").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
     }
 
     public void draw(ObservableList<? extends Flat> list) {
@@ -92,8 +100,12 @@ public class CoordinatesPageWindow {
             circle.setCursor(Cursor.HAND);
             circle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Элем");
-                alert.setHeaderText("Вот вам кликнутый элемент");
+                try {
+                    alert.setTitle(new String(MainLocale.getResourceBundle().getString("coords_elem").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                    alert.setHeaderText(new String(MainLocale.getResourceBundle().getString("coords_clicked").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
+                } catch (UnsupportedEncodingException unsupportedEncodingException) {
+                    unsupportedEncodingException.printStackTrace();
+                }
                 alert.setContentText(flat.printInfoAboutElement());
                 alert.showAndWait();
             });

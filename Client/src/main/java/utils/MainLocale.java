@@ -10,8 +10,8 @@ public class MainLocale {
     private static ResourceBundle resourceBundle;
 
     public static void setLocale(Locale locale){
+        resourceBundle = ResourceBundle.getBundle("GUI", locale);
         Locale.setDefault(locale);
-        resourceBundle = ResourceBundle.getBundle("GUI");
     }
 
 }
