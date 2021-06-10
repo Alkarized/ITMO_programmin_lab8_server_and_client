@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="java_fx_controllers.FlatCreationController"
+      prefHeight="400.0" prefWidth="300.0"
+      stylesheets="/Styles/flatCreationStyle.css"
+      alignment="TOP_CENTER">
+    <spacing>10</spacing>
+    <padding>
+        <Insets top="10" bottom="5" left="5" right="5"></Insets>
+    </padding>
+    <children>
+        <Text fx:id="topic">
+
+        </Text>
+        <HBox>
+            <spacing>10</spacing>
+            <Text>
+                Name:
+            </Text>
+            <TextField fx:id="name">
+
+            </TextField>
+        </HBox>
+        <HBox>
+            <spacing>10</spacing>
+            <Text>
+                Area:
+            </Text>
+            <TextField fx:id="area">
+
+            </TextField>
+        </HBox>
+        <HBox>
+            <spacing>10</spacing>
+            <Text>
+                Number of rooms:
+            </Text>
+            <TextField fx:id="numberOfRooms">
+
+            </TextField>
+        </HBox>
+        <HBox>
+            <spacing>10</spacing>
+            <Text>
+                Furnish:
+            </Text>
+            <ChoiceBox fx:id="furnish">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="DESIGNER"/>
+                        <String fx:value="NONE"/>
+                        <String fx:value="FINE"/>
+                        <String fx:value="BAD"/>
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+        </HBox>
+        <HBox>
+            <spacing>10</spacing>
+            <Text>
+                View:
+            </Text>
+            <ChoiceBox fx:id="view">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="STREET"/>
+                        <String fx:value="YARD"/>
+                        <String fx:value="PARK"/>
+                        <String fx:value="NORMAL"/>
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+        </HBox>
+        <HBox>
+            <spacing>10</spacing>
+            <Text>
+                Transport:
+            </Text>
+            <ChoiceBox fx:id="transport">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="NONE"/>
+                        <String fx:value="LITTLE"/>
+                        <String fx:value="NORMAL"/>
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+        </HBox>
+        <HBox>
+            <spacing>10</spacing>
+            <Text>
+                house_name:
+            </Text>
+            <TextField fx:id="house_name">
+
+            </TextField>
+        </HBox>
+        <HBox>
+            <spacing>10</spacing>
+            <Text>
+                house_year:
+            </Text>
+            <TextField fx:id="house_year">
+
+            </TextField>
+        </HBox>
+        <HBox>
+            <spacing>10</spacing>
+            <Text>
+                house_number_of_flats:
+            </Text>
+            <TextField fx:id="house_number_of_flats">
+
+            </TextField>
+        </HBox>
+        <HBox>
+            <spacing>10</spacing>
+            <Text>
+                coords_x:
+            </Text>
+            <TextField fx:id="coords_x">
+
+            </TextField>
+        </HBox>
+        <HBox>
+            <spacing>10</spacing>
+            <Text>
+                coords_y:
+            </Text>
+            <TextField fx:id="coords_y">
+
+            </TextField>
+        </HBox>
+        <Button fx:id="sendButton" onMouseClicked="#closeWindow">
+
+        </Button>
+    </children>
+
+</VBox>

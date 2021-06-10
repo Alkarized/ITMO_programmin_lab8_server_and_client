@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="java_fx_controllers.AlertQuestionController">
+    <spacing>20</spacing>
+    <padding>
+        <Insets top="10" bottom="10" left="10" right="10"></Insets>
+    </padding>
+    <Text fx:id="textQuest" textAlignment="CENTER"/>
+    <TextField fx:id="filed" alignment="CENTER"/>
+    <HBox alignment="CENTER">
+        <Button fx:id="ansButton" onMouseClicked="#pressedButton" textAlignment="CENTER" alignment="CENTER"/>
+    </HBox>
+</VBox>

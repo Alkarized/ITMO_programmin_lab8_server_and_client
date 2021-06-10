@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="logInBorderPane" prefHeight="215.0" prefWidth="343.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="java_fx_controllers.SettingsController">
+   <center>
+      <AnchorPane fx:id="settingsPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="291.0" prefWidth="439.0" style="-fx-background-color: #333333;">
+          <children>
+              <Label fx:id="settings" layoutX="132.0" layoutY="14.0" prefHeight="70.0" prefWidth="174.0" text="Settings" textFill="RED">
+                  <font>
+                      <Font size="48.0" />
+                  </font>
+              </Label>
+            <MenuButton fx:id="languageMenuButton" layoutX="114.0" layoutY="128.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="210.0" text="Language">
+              <items>
+                <MenuItem id="englishMenuItem" fx:id="englishMenuItem" mnemonicParsing="false" text="English" />
+                <MenuItem id="russianMenuItem" fx:id="russianMenuItem" mnemonicParsing="false" text="Русский" />
+                  <MenuItem id="latvianMenuItem" fx:id="latvianMenuItem" mnemonicParsing="false" text="Latviešu valoda" />
+                  <MenuItem id="portugesMenuItem" fx:id="portugesMenuItem" mnemonicParsing="false" text="Português" />
+              </items>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MenuButton>
+          </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
