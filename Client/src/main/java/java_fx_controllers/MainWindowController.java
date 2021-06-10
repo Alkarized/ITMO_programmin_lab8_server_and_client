@@ -2,6 +2,9 @@ package java_fx_controllers;
 
 import client.Invoker;
 import fields.*;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,12 +17,14 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
 import utils.FlatGetter;
 import utils.HashFields;
 import utils.SerializableAnswerToClient;
 import windows.AlertQuestionOfNumberOfRooms;
+import windows.CoordinatesPageWindow;
 import windows.FiltrationWindow;
 import windows.JavaFXWorker;
 
@@ -211,8 +216,9 @@ public class MainWindowController {
         SerializableAnswerToClient answer = invoker.executeCommand(null, args);
         if (answer != null) {
             table.setItems(getList(answer.getQueue()));
-            listOfFlatsForAnim.retainAll(getList(answer.getQueue()));
-            answer.getQueue().stream().filter((e) -> !listOfFlatsForAnim.contains(e)).forEach((e) -> listOfFlatsForAnim.add(e));
+            //listOfFlatsForAnim.retainAll(getList(answer.getQueue()));
+            listOfFlatsForAnim.setAll(answer.getQueue());
+            //answer.getQueue().stream().filter((e) -> !listOfFlatsForAnim.contains(e)).forEach((e) -> listOfFlatsForAnim.add(e));
         } else {
             textArea.appendText("Ощабка подключения");
             textArea.appendText("\n");
@@ -234,7 +240,6 @@ public class MainWindowController {
     }
 
     public void exit(MouseEvent mouseEvent) throws IOException {
-        timer.cancel();
         javaFXWorker.initializeWindow(javaFXWorker.getWindow(), javaFXWorker.getProgramStarter());
     }
 
@@ -481,7 +486,7 @@ public class MainWindowController {
             alert.showAndWait();
         } else {
 
-            textArea.appendText(unknownErrText;
+            textArea.appendText(unknownErrText);
             textArea.appendText("\n");
         }
 
@@ -528,38 +533,31 @@ public class MainWindowController {
     }
 
     public void openCoordinatesWindow(MouseEvent mouseEvent) {
-        CoordinatesPageController coordinatesPageStage = new CoordinatesPageController(listOfFlatsForAnim);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        coordinatesPageStage.start(stage);
+        CoordinatesPageWindow coordinatesPageWindow = new CoordinatesPageWindow();
+        coordinatesPageWindow.display(listOfFlatsForAnim);
     }
-
-    public void start() {
-        try {
-            javaFXWorker.setMainWindow();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
 
     @FXML
     public void initialize() {
         textArea.textProperty().addListener((e) -> {
-            //textArea.deselect();
             textArea.setScrollTop(Double.MIN_VALUE);
         });
         getterOfCollection();
     }
 
     private void getterOfCollection() {
-        timer = new Timer();
+        /*timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                setTextToColumns();
+
             }
-        }, 5000, 5000);
+        }, 5000, 5000);*/
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ev -> {
+                setTextToColumns();
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 }
 

@@ -1,9 +1,6 @@
 package fields;
 
 
-import message.MessageColor;
-import message.Messages;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -158,20 +155,20 @@ public class Flat implements Comparable<Flat>, Serializable {
     /**
      * Выводит информацию в строков виде об объекте
      */
-    public void printInfoAboutElement() {
-        Messages.normalMessageOutput("id - " + id + "\n" +
-                        "Имя - " + name + "\n" +
-                        "Координаты x и y - " + coordinates.getX() + ", " + coordinates.getY() + "\n" +
-                        "Дата создания - " + getCreationDate() + "\n" +
-                        "Площадь - " + area + "\n" +
-                        "Кол-во комнат - " + numberOfRooms + "\n" +
-                        "Отделка - " + furnish + "\n" +
-                        "Вид - " + view + "\n" +
-                        "Транспорт - " + transport + "\n" +
-                        "Имя дома - " + house.getName() + "\n" +
-                        "Год дома - " + house.getYear() + "\n" +
-                        "Кол-во квартир на этаже - " + house.getNumberOfFlatsOnFloor(),
-                MessageColor.ANSI_WHITE);
+    public String printInfoAboutElement() {
+        return "id - " + id + "\n" +
+                "Имя - " + name + "\n" +
+                "Координаты x и y - " + coordinates.getX() + ", " + coordinates.getY() + "\n" +
+                "Дата создания - " + getCreationDate() + "\n" +
+                "Площадь - " + area + "\n" +
+                "Кол-во комнат - " + numberOfRooms + "\n" +
+                "Отделка - " + furnish + "\n" +
+                "Вид - " + view + "\n" +
+                "Транспорт - " + transport + "\n" +
+                "Имя дома - " + house.getName() + "\n" +
+                "Год дома - " + house.getYear() + "\n" +
+                "Кол-во квартир на этаже - " + house.getNumberOfFlatsOnFloor() + "\n" +
+                "Имя пользователя - " + user.getUsername();
     }
 
     /**
