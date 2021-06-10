@@ -19,7 +19,7 @@
     </padding>
     <HBox alignment="CENTER_LEFT">
         <spacing>10</spacing>
-       <Text textAlignment="CENTER">
+       <Text fx:id="textFieldo" textAlignment="CENTER">
            Фильтр по полю:
        </Text>
         <ChoiceBox fx:id="choiceBox">
@@ -45,8 +45,8 @@
     </HBox>
     <HBox>
         <spacing> 10</spacing>
-        <Text textAlignment="CENTER">
-            Значение
+        <Text fx:id="value" textAlignment="CENTER">
+
         </Text>
         <TextField fx:id="textField" alignment="CENTER">
 
@@ -54,11 +54,10 @@
     </HBox>
     <HBox alignment="CENTER_LEFT">
         <spacing>20</spacing>
-        <RadioButton fx:id="radioContains">
-            Содержит
+        <RadioButton text="cont" fx:id="radioContains">
+
         </RadioButton>
         <RadioButton fx:id="radioNotContains">
-            Не содержит
         </RadioButton>
     </HBox>
     <TextFlow textAlignment="CENTER">

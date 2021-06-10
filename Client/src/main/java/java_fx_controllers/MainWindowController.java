@@ -31,10 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
-import java.util.PriorityQueue;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 public class MainWindowController {
@@ -102,11 +100,11 @@ public class MainWindowController {
         TableColumn<Flat, Long> idColumn = new TableColumn<>("id");
         idColumn.setPrefWidth(120);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<Flat, Date> dateColumn = new TableColumn<>("creation date");
+        TableColumn<Flat, SimpleDateFormat> dateColumn = new TableColumn<>("creation date");
         dateColumn.setPrefWidth(120);
         dateColumn.setCellValueFactory(Flat -> {
             SimpleObjectProperty property = new SimpleObjectProperty();
-            property.setValue(Flat.getValue().getCreationDate());
+            property.setValue(new SimpleDateFormat("HH:mm:ss.SSS dd-MM-yyyy", Locale.getDefault()).format(Flat.getValue().getCreationDateClear()));
             return property;
         });
         TableColumn<Flat, String> nameColumn = new TableColumn<>("name");

@@ -48,6 +48,10 @@ public class Flat implements Comparable<Flat>, Serializable {
         return new SimpleDateFormat("HH:mm:ss.SSS dd-MM-yyyy").format(creationDate);
     }
 
+    public Date getCreationDateClear(){
+        return creationDate;
+    }
+
     public Long getArea() {
         return area;
     }
