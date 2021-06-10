@@ -29,9 +29,12 @@
                     <Circle layoutY="10" radius="52">
                         <fill>red</fill>
                     </Circle>
-                    <ImageView fx:id="avatarIcon" fitWidth="120" fitHeight="120" pickOnBounds="true"
+                    <ImageView fx:id="avatarIcon" onMouseClicked="#setAvatarIcon" fitWidth="120" fitHeight="120" pickOnBounds="true"
                                preserveRatio="true">
                         <Image url="/Pics/memefrogava.jpg"/>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
                         <clip>
                             <Circle centerX="60" centerY="55" radius="50"/>
                         </clip>
@@ -45,48 +48,93 @@
                 <spacing>10</spacing>
                 <Button fx:id="helpButton" onMouseClicked="#getHelp">
                     Help
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="infoButton" onMouseClicked="#getInfo">
                     Info
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="addButton" onMouseClicked="#addNewFlat">
                     Add
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="updateButton" onMouseClicked="#updateFlat">
                     Update ID
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="removeButton" onMouseClicked="#removeFlat">
                     Remove by ID
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="clearButton" onMouseClicked="#clearFlats">
                     Clear
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="executeScriptButton" onMouseClicked="#executeScripts">
                     Execute script
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button id="removeFirstButton" onMouseClicked="#removeFirstFlat">
                     Remove first
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="headButton" onMouseClicked="#getHeadFlat">
                     Head
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="removeLowerButton" onMouseClicked="#removeLowerFlat">
                     Remove lower
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="minByCoordsButton" onMouseClicked="#minByCoords">
                     Min by coords
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="countLessButton" onMouseClicked="#countLess">
                     Count less
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="printFieldButton" onMouseClicked="#printFields">
                     Print field desc
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="filtration" onMouseClicked="#openFilters">
                     Filtration
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="exitButton" onMouseClicked="#exit">
                     Exit
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
             </VBox>
         </VBox>
@@ -108,6 +156,9 @@
                                 Coordinates
                             </text>
                         </Button>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
                     </VBox>
                     <Button layoutY="-10" layoutX="65" prefWidth="40" prefHeight="40"
                             fx:id="settingsButton" onMouseClicked="#openSettingsWindow">
