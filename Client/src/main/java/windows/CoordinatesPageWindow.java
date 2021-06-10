@@ -41,10 +41,6 @@ public class CoordinatesPageWindow {
 
         draw(list);
 
-        list.addListener((ListChangeListener<? super Flat>) (e) -> {
-            draw(list);
-        });
-
         Scene scene = new Scene(root, 1600, 950);
         window.setScene(scene);
         window.setMinWidth(1600);
@@ -54,7 +50,7 @@ public class CoordinatesPageWindow {
 
     }
 
-    private void draw(ObservableList<? extends Flat> list) {
+    public void draw(ObservableList<? extends Flat> list) {
         ArrayList<Circle> arrlist = new ArrayList();
         list.forEach((flat) -> {
             Circle circle = new Circle(12, Color.RED);

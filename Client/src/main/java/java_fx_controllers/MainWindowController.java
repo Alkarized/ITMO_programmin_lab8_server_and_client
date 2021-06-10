@@ -85,6 +85,8 @@ public class MainWindowController {
     private final String unknownErrText = "Ошибка получения данных, советую обратиться к админам сервера, их контактных данных я не дам, ищите сами, кехф";
     private Timer timer;
 
+    private CoordinatesPageWindow coordinatesPageWindow;
+
     public void initALlColumns() {
         hashFields = new HashFields();
         TableColumn<Flat, Long> idColumn = new TableColumn<>("id");
@@ -218,6 +220,9 @@ public class MainWindowController {
             table.setItems(getList(answer.getQueue()));
             //listOfFlatsForAnim.retainAll(getList(answer.getQueue()));
             listOfFlatsForAnim.setAll(answer.getQueue());
+            if (coordinatesPageWindow != null){
+                coordinatesPageWindow.draw(listOfFlatsForAnim);
+            }
             //answer.getQueue().stream().filter((e) -> !listOfFlatsForAnim.contains(e)).forEach((e) -> listOfFlatsForAnim.add(e));
         } else {
             textArea.appendText("Ощабка подключения");
@@ -533,7 +538,7 @@ public class MainWindowController {
     }
 
     public void openCoordinatesWindow(MouseEvent mouseEvent) {
-        CoordinatesPageWindow coordinatesPageWindow = new CoordinatesPageWindow();
+        coordinatesPageWindow = new CoordinatesPageWindow();
         coordinatesPageWindow.display(listOfFlatsForAnim);
     }
 
