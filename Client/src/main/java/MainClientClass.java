@@ -23,7 +23,7 @@ public class MainClientClass extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        ProgramStarter programStarter = new ProgramStarter("localhost", 7879);
+        ProgramStarter programStarter = new ProgramStarter("localhost", 7880);
         JavaFXWorker javaFXWorker = new JavaFXWorker();
         //Init LogInOrRegisterWindow
         MainLocale.setLocale(new Locale("ru","RU"));
