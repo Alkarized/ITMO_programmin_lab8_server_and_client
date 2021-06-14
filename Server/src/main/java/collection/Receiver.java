@@ -4,9 +4,11 @@ import fields.Flat;
 import fields.User;
 import message.MessageColor;
 import server.Connection;
+import utils.MainLocale;
 import utils.SerializableAnswerToClient;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class Receiver {
     private final Connection connection;
@@ -21,21 +23,21 @@ public class Receiver {
 
     public SerializableAnswerToClient getInfoAboutAllCommands() throws IOException, ClassNotFoundException {
         return new SerializableAnswerToClient(MessageColor.ANSI_YELLOW,
-                "help : вывести справку по доступным командам\n" +
-                        "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +
+                "help : " + new String(MainLocale.getResourceBundle().getString("help_help").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
+                        "info : " + new String(MainLocale.getResourceBundle().getString("help_info").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
                         //"show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +
-                        "add {element} : добавить новый элемент в коллекцию\n" +
-                        "update id {element} : обновить значение элемента коллекции, id которого равен заданному\n" +
-                        "remove_by_id id : удалить элемент из коллекции по его id\n" +
-                        "clear : очистить коллекцию\n" +
-                        "execute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.\n" +
-                        "exit : завершить программу\n" +
-                        "remove_first : удалить первый элемент из коллекции\n" +
-                        "head : вывести первый элемент коллекции\n" +
-                        "remove_lower {element} : удалить из коллекции все элементы, меньшие, чем заданный\n" +
-                        "min_by_coordinates : вывести любой объект из коллекции, значение поля coordinates которого является минимальным\n" +
-                        "count_less_than_number_of_rooms numberOfRooms : вывести количество элементов, значение поля numberOfRooms которых меньше заданного\n" +
-                        "print_field_descending_number_of_rooms : вывести значения поля numberOfRooms всех элементов в порядке убывания"
+                        "add {element}: " + new String(MainLocale.getResourceBundle().getString("help_add").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
+                        "update id {element}: " + new String(MainLocale.getResourceBundle().getString("help_update").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
+                        "remove_by_id id: " + new String(MainLocale.getResourceBundle().getString("help_remove_id").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
+                        "clear: " + new String(MainLocale.getResourceBundle().getString("help_clear").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
+                        "execute_script file_name: " + new String(MainLocale.getResourceBundle().getString("help_script").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
+                        "exit: " + new String(MainLocale.getResourceBundle().getString("help_exit").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
+                        "remove_first: " + new String(MainLocale.getResourceBundle().getString("help_remove_first").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
+                        "head: " + new String(MainLocale.getResourceBundle().getString("help_head").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
+                        "remove_lower {element}: " + new String(MainLocale.getResourceBundle().getString("help_remove_lower").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
+                        "min_by_coordinates: " + new String(MainLocale.getResourceBundle().getString("help_min").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
+                        "count_less_than_number_of_rooms numberOfRooms: " + new String(MainLocale.getResourceBundle().getString("help_count").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + "\n" +
+                        "print_field_descending_number_of_rooms: " + new String(MainLocale.getResourceBundle().getString("help_print").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251")
         );
     }
 

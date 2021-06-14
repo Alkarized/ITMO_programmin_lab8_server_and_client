@@ -71,7 +71,8 @@ public class RegistrationWindowController {
     private Text registerOrAuthText;
 
     @SneakyThrows
-    public void setText() { //todo
+    public void setText() { //todo\
+        //passwordField.setPromptText(MainLocale.getValue("reg_reg_field"));
         passwordField.setPromptText(new String(MainLocale.getResourceBundle().getString("reg_reg_field").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
         loginButton.setText(new String(MainLocale.getResourceBundle().getString("reg_log_button").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));
         registerButton.setText(new String(MainLocale.getResourceBundle().getString("reg_reg_button").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"));

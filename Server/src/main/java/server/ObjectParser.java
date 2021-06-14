@@ -5,6 +5,7 @@ import commands.serializable_commands.SerializableCommandStandard;
 import commands.serializable_commands.SerializableCommandWithArgs;
 import commands.serializable_commands.SerializableCommandWithObject;
 import commands.serializable_commands.SerializableCommandWithObjectAndArgs;
+import utils.MainLocale;
 import message.MessageColor;
 import message.Messages;
 import utils.SerializableAnswerToClient;
@@ -20,15 +21,19 @@ public class ObjectParser {
         SerializableAnswerToClient serializableAnswerToClient = null;
         if (object instanceof SerializableCommandWithObjectAndArgs) {
             SerializableCommandWithObjectAndArgs command = (SerializableCommandWithObjectAndArgs) object;
+            MainLocale.setLocale(command.getLocale());
             serializableAnswerToClient = command.getCommand().execute(receiver, command.getFlat(), command.getArgs(), command.getUser());
         } else if (object instanceof SerializableCommandWithObject) {
             SerializableCommandWithObject command = (SerializableCommandWithObject) object;
+            MainLocale.setLocale(command.getLocale());
             serializableAnswerToClient = command.getCommand().execute(receiver, command.getFlat(), null, command.getUser());
         } else if (object instanceof SerializableCommandWithArgs) {
             SerializableCommandWithArgs command = (SerializableCommandWithArgs) object;
+            MainLocale.setLocale(command.getLocale());
             serializableAnswerToClient = command.getCommand().execute(receiver, null, command.getArgs(), command.getUser());
         } else if (object instanceof SerializableCommandStandard) {
             SerializableCommandStandard command = (SerializableCommandStandard) object;
+            MainLocale.setLocale(command.getLocale());
             serializableAnswerToClient = command.getCommand().execute(receiver, null, null, command.getUser());
         }
         return parseAnswerToByteBuffer(serializableAnswerToClient);

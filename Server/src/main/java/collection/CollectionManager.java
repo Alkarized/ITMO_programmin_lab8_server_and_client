@@ -5,10 +5,13 @@ import collection.comparators.NameComparator;
 import collection.comparators.NumberOfRoomsComparator;
 import fields.Flat;
 import fields.User;
+import lombok.SneakyThrows;
 import message.MessageColor;
 import server.DataBaseConnection;
+import utils.MainLocale;
 import utils.SerializableAnswerToClient;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -36,10 +39,11 @@ public class CollectionManager {
      *
      * @return информация о коллекции
      */
+    @SneakyThrows
     public String printInfoAboutCollection() {
-        return ("Тип коллекции - " + getCollection().getClass().getName() + "\n" +
-                "Дата иницализации - " + getDate() + "\n" +
-                "Кол-во элементов - " + getCollection().size());
+        return (new String(MainLocale.getResourceBundle().getString("manager_collection_type").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + getCollection().getClass().getName() + "\n" +
+                new String(MainLocale.getResourceBundle().getString("manager_collection_date").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + getDate() + "\n" +
+                new String(MainLocale.getResourceBundle().getString("manager_collection_size").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") + getCollection().size());
 
     }
 
@@ -126,12 +130,14 @@ public class CollectionManager {
      *
      * @return Значения поля numberOfRooms в порялке убывания
      */
+    @SneakyThrows
     public String printFieldDescendingNumberOfRooms() {
         if (getCollection().size() > 0) {
             PriorityQueue<Flat> queue = sortCollectionByComp(new NumberOfRoomsComparator());
             StringBuilder stringBuilder = new StringBuilder();
             queue.forEach((flat -> stringBuilder.append(flat.getNumberOfRooms()).append("\t\n")));
-            return ("Значения поля numberOfRooms всех элементов в порядке убывания:\n" + stringBuilder.toString());
+            return new String(MainLocale.getResourceBundle().getString("manager_collection_number_of_rooms").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251") +
+                    "\n" + stringBuilder.toString();
         } else {
             return "Коллекция пуста!";
         }
@@ -221,17 +227,19 @@ public class CollectionManager {
      * @param flat данный элемент
      * @return ответ клиенту
      */
+    @SneakyThrows
     public SerializableAnswerToClient removeLower(Flat flat, User user) {
         if (getCollection().size() > 0) {
             if (flat != null) {
                 return dataBaseConnection.removeLowerFlatsFromDB(flat, user, getCollection());
             } else {
+
                 //Messages.normalMessageOutput("Не удалось получить элемент для сравнения.");
-                return new SerializableAnswerToClient(MessageColor.ANSI_RED, "Не удалось получить элемент для сравнения. ", null);
+                return new SerializableAnswerToClient(MessageColor.ANSI_RED, new String(MainLocale.getResourceBundle().getString("manager_collection_lower_err1").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"), null);
             }
         } else {
             //Messages.normalMessageOutput("В коллекции нет элементов, нечего удалять");
-            return new SerializableAnswerToClient(MessageColor.ANSI_PURPLE, "В коллекции нет элементов, нечего удалять ", null);
+            return new SerializableAnswerToClient(MessageColor.ANSI_PURPLE, new String(MainLocale.getResourceBundle().getString("manager_collection_lower_err2").getBytes(StandardCharsets.ISO_8859_1), "WINDOWS-1251"), null);
         }
         //Messages.normalMessageOutput("Все элементы, меньше данного - удалены!");
     }

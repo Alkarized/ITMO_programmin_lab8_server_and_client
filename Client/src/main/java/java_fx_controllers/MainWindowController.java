@@ -9,8 +9,10 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -26,7 +28,11 @@ import utils.HashFields;
 import utils.MainLocale;
 import utils.SerializableAnswerToClient;
 import windows.*;
-
+import java.io.*;
+import java.util.Date;
+import java.util.PriorityQueue;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -255,6 +261,7 @@ public class MainWindowController {
 
     public void exit(MouseEvent mouseEvent) throws IOException {
         timeline.stop();
+        timeline = null;
         javaFXWorker.initializeWindow(javaFXWorker.getWindow(), javaFXWorker.getProgramStarter());
     }
 
@@ -559,7 +566,7 @@ public class MainWindowController {
 
     public void openCoordinatesWindow(MouseEvent mouseEvent) {
         coordinatesPageWindow = new CoordinatesPageWindow();
-        coordinatesPageWindow.display(listOfFlatsForAnim);
+        coordinatesPageWindow.display(listOfFlatsForAnim, userName, avatarIcon.getImage());
     }
 
     @FXML
@@ -578,11 +585,35 @@ public class MainWindowController {
 
             }
         }, 5000, 5000);*/
-        timeline = new Timeline(new KeyFrame(Duration.seconds(5), ev -> {
+        if (timeline == null){
+            timeline = new Timeline(new KeyFrame(Duration.seconds(5), ev -> {
                 setTextToColumns();
-        }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+            }));
+            timeline.setCycleCount(Animation.INDEFINITE);
+            timeline.play();
+        }
+    }
+
+    public void setAvatarIcon(MouseEvent mouseEvent) {
+        FileChooser chooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.png", "*.bmp");
+        chooser.getExtensionFilters().add(extFilter);
+        Stage stage1 = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        File file = chooser.showOpenDialog(stage1);
+        ImageView logoImage = this.getImage(file);
+        if (file != null) {
+            avatarIcon.setImage(logoImage.getImage());
+        }
+    }
+
+    private ImageView getImage(File file) {
+        InputStream input = null;
+        Image image = null;
+        try {
+            input = new FileInputStream(file);
+            image = new Image(input);
+        } catch (FileNotFoundException | NullPointerException e) {}
+        return new ImageView(image);
     }
 }
 

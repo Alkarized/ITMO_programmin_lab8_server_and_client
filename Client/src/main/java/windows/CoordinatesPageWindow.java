@@ -10,18 +10,21 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.SneakyThrows;
 import utils.MainLocale;
-
+import java.util.*;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+
 
 public class CoordinatesPageWindow {
 
@@ -29,8 +32,27 @@ public class CoordinatesPageWindow {
 
     private ObservableList<Flat> list;
 
+    private static HashMap hashMap = new HashMap();
+
+    private static Iterator colorIterator = null;
+
+    private static Set<Color> colors = new HashSet<Color>();
+    static {
+        colors.add(Color.GREEN);
+        colors.add(Color.RED);
+        colors.add(Color.GRAY);
+        colors.add(Color.BLUE);
+        colors.add(Color.BLACK);
+        colors.add(Color.ORANGE);
+        colors.add(Color.GOLD);
+        colorIterator = colors.iterator();
+    }
+
+
+
+
     @SneakyThrows
-    public void display(ObservableList<Flat> list) {
+    public void display(ObservableList<Flat> list, String userName, Image avatarIcon) {
         this.list = list;
         Stage window = new Stage();
         window.setTitle("coords");//todo
@@ -43,7 +65,8 @@ public class CoordinatesPageWindow {
         coordinatesPageController = loader.getController();
         setText();
         draw(list);
-
+        coordinatesPageController.setName(userName);
+        coordinatesPageController.setAvatarIcon(avatarIcon);
         Scene scene = new Scene(root, 1600, 950);
         window.setScene(scene);
         window.setMinWidth(1600);
@@ -60,25 +83,34 @@ public class CoordinatesPageWindow {
 
     public void draw(ObservableList<? extends Flat> list) {
         ArrayList<Circle> arrlist = new ArrayList();
+
         list.forEach((flat) -> {
-            Circle circle = new Circle(12, Color.RED);
-            if (flat.getCoordinates().getX() <= 650 || flat.getCoordinates().getX() >= -650) {
-                circle.setCenterX(-flat.getCoordinates().getX());
+            Circle circle = null;
+            if (hashMap.containsKey(flat.getUser().getUsername())) {
+                circle = new Circle(12, (Color) hashMap.get(flat.getUser().getUsername()));
             } else {
-                if (flat.getCoordinates().getX() < 0) { //тк координаты перевернуты
-                    circle.setCenterX(650);
-                } else {
+                Color c = (Color) colorIterator.next();
+                hashMap.put(flat.getUser().getUsername(), c);
+                circle = new Circle(12, c);
+            }
+
+            if (flat.getCoordinates().getX() <= 650 && flat.getCoordinates().getX() >= -650) {
+                circle.setCenterX(flat.getCoordinates().getX());
+            } else {
+                if (flat.getCoordinates().getX() < -650) { //тк координаты перевернуты
                     circle.setCenterX(-650);
+                } else {
+                    circle.setCenterX(650);
                 }
             }
 
-            if (flat.getCoordinates().getY() <= 320 || flat.getCoordinates().getY() >= -320) {
+            if (flat.getCoordinates().getY() <= 300 && flat.getCoordinates().getY() >= -300) {
                 circle.setCenterY(-flat.getCoordinates().getY());
             } else {
-                if (flat.getCoordinates().getY() < 0) { //тк координаты перевернуты
-                    circle.setCenterY(320);
+                if (flat.getCoordinates().getY() < -300) { //тк координаты перевернуты
+                    circle.setCenterY(300);
                 } else {
-                    circle.setCenterY(-320);
+                    circle.setCenterY(-300);
                 }
             }
 
@@ -88,13 +120,16 @@ public class CoordinatesPageWindow {
                 circle.setRadius(55);
             }
 
+
+
+            circle.setStrokeWidth(20);
             ScaleTransition scaleTransition = new ScaleTransition();
-            scaleTransition.setDuration(Duration.INDEFINITE);
+            scaleTransition.setDuration(Duration.millis(1000));
             scaleTransition.setNode(circle);
-            scaleTransition.setByY(1.5);
-            scaleTransition.setByX(1.5);
-            scaleTransition.setCycleCount(10);
-            scaleTransition.setAutoReverse(false);
+            scaleTransition.setByY(0.3);
+            scaleTransition.setByX(0.3);
+            scaleTransition.setCycleCount(50);
+            scaleTransition.setAutoReverse(true);
             scaleTransition.play();
 
             circle.setCursor(Cursor.HAND);
@@ -111,6 +146,7 @@ public class CoordinatesPageWindow {
             });
             arrlist.add(circle);
         });
+        coordinatesPageController.getCoordinatesGroup().getChildren().clear();
         for (Circle c : arrlist) {
             coordinatesPageController.getCoordinatesGroup().getChildren().add(c);
         }

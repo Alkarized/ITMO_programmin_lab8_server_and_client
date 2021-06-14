@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="java_fx_controllers.CoordinatesPageController">
+<BorderPane style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="java_fx_controllers.CoordinatesPageController">
    <top>
       <BorderPane BorderPane.alignment="CENTER">
          <left>
@@ -22,18 +18,18 @@
                         <Font size="32.0" />
                      </font>
                   </Label>
-                  <Button fx:id="avatarChangeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="52.0" style="-fx-background-color: #333333;">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="84.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Pics/memefrogava.jpg" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
+                  <StackPane>
+                     <Circle layoutY="10" radius="52">
+                        <fill>red</fill>
+                     </Circle>
+                     <ImageView fx:id="userLogo" fitWidth="120" fitHeight="120" pickOnBounds="true"
+                                preserveRatio="true">
+                        <Image url="/Pics/memefrogava.jpg"/>
+                        <clip>
+                           <Circle centerX="60" centerY="55" radius="50"/>
+                        </clip>
+                     </ImageView>
+                  </StackPane>
                </children>
             </AnchorPane>
          </left>
@@ -54,7 +50,7 @@
          <children>
             <AnchorPane fx:id="coordinatesPane" layoutX="57.0" layoutY="-13.0" prefHeight="766.0" prefWidth="1502.0" style="-fx-background-color: #FFFFFF;">
                <children>
-                  <Group fx:id="coordinatesGroup" layoutX="765.0" layoutY="360.0" />
+                  <Group fx:id="coordinatesGroup" layoutX="764.0" layoutY="383.0" />
                   <Line id="oxLine" endX="727.7999267578125" layoutX="748.0" layoutY="383.0" startX="-747.2000122070312" />
                   <Line id="oyLine" endX="42.99993896484375" endY="-411.800048828125" layoutX="722.0" layoutY="424.0" startX="42.99993896484375" startY="330.59991455078125" />
                </children>

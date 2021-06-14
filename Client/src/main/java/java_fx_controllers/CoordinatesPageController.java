@@ -36,8 +36,6 @@ import java.util.Observable;
 
 
 public class CoordinatesPageController {
-    @FXML @Getter @Setter
-    private Button avatarChangeButton;
 
     @FXML @Getter @Setter
     private Label userName;
@@ -65,17 +63,6 @@ public class CoordinatesPageController {
 
         coordinatesPane.setMaxSize(1501, 726);
 
-        avatarChangeButton.setOnAction(event -> {
-            FileChooser chooser = new FileChooser();
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.png", "*.bmp");
-            chooser.getExtensionFilters().add(extFilter);
-            Stage stage1 = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            File file = chooser.showOpenDialog(stage1);
-            ImageView logoImage = this.getImage(file);
-            if (file != null) {
-                userLogo.setImage(logoImage.getImage());
-            }
-        });
     }
 
     private ImageView getImage(File file) {
@@ -86,6 +73,14 @@ public class CoordinatesPageController {
             image = new Image(input);
         } catch (FileNotFoundException | NullPointerException e) {}
         return new ImageView(image);
+    }
+
+    public void setName(String user_name) {
+            userName.setText(user_name);
+    }
+
+    public void setAvatarIcon(Image userAvatarIcon) {
+        userLogo.setImage(userAvatarIcon);
     }
 
 }
